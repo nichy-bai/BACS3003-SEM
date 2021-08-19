@@ -2,18 +2,284 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head runat="server">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
     <title></title>
-    <asp:ContentPlaceHolder ID="head" runat="server">
-    </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
-        <div>
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-            </asp:ContentPlaceHolder>
-        </div>
+        <nav
+            class="flex items-center justify-between flex-wrap bg-white py-4 shadow border-solid border-b-4 border-gray-400">
+            <div class="flex justify-between lg:w-auto w-full lg:border-b-0 pl-6 pr-2 border-solid border-b-2 border-gray-300 pb-5 lg:pb-0">
+                <div class="flex items-center flex-shrink-0 text-gray-800 mr-16">
+                    <span class="font-black text-xl tracking-tight uppercase">Badcaps.net Forums</span>
+                </div>
+                <div class="block lg:hidden mr-5">
+                    <button
+                        id="nav"
+                        class="flex items-center px-3 py-2 border-2 rounded-md text-gray-600 border-gray-600">
+                        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <title>Menu</title>
+                            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="menu w-full lg:block flex-grow lg:flex lg:items-center lg:w-auto lg:px-3 px-8">
+                <div class="text-md font-bold text-gray-600 lg:flex-grow">
+                    <a href="#responsive-header"
+                        class="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2 transition ease-in-out duration-300">FAQ
+                    </a>
+                    <a href="#responsive-header"
+                        class=" block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2 transition ease-in-out duration-300">Calendar
+                    </a>
+                    <a href="#responsive-header"
+                        class="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2 transition ease-in-out duration-300">Today's Posts
+                    </a>
+                </div>
+
+                <div class="relative mx-auto text-gray-600 lg:block hidden mr-5">
+                    <input
+                        class="border-2 border-gray-300 bg-white h-10 pl-2 pr-8 rounded-md text-sm focus:outline-none hover:bg-gray-100 transition ease-in-out duration-300"
+                        type="search" name="search" placeholder="Search">
+                    <button type="submit" class="absolute right-0 top-0 mt-3 mr-2">
+                        <svg class="text-gray-600 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                            version="1.1" id="Capa_1" x="0px" y="0px"
+                            viewBox="0 0 56.966 56.966" style="enable-background: new 0 0 56.966 56.966;"
+                            xml:space="preserve"
+                            width="512px" height="512px">
+                            <path
+                                d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex">
+                    <a href="#"
+                        class="block text-md px-4 py-2 rounded-md text-gray-600 ml-2 font-bold hover:text-white mt-4 hover:bg-gray-600 lg:mt-0 transition ease-in-out duration-300">Register</a>
+
+                    <a href="#"
+                        class=" block text-md px-4  ml-2 py-2 rounded-md text-white hover:text-gray-600 bg-gray-600 font-bold mt-4 hover:bg-white lg:mt-0 border-2 border-gray-600 transition ease-in-out duration-300">Login</a>
+                </div>
+            </div>
+        </nav>
+
+        <asp:Panel ID="whole_body_panel" runat="server" CssClass="w-full flex flex-col md:flex-row flex-nowrap overflow-y-auto mt-16 md:mt-0 py-5 bg-gray-600 px-0 lg:px-20 xl:px-40">
+                <!--Main Body-->
+                <div class="flex flex-col flex-grow mx-5 mb-5">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+
+                <!--Aside-->
+                <asp:Panel runat="server" ID="master_aside_panel">
+                    <div class="flex flex-col hidden lg:inline">
+                        <!--Featured discussions-->
+                        <div
+                            class="m-5 mt-0 ml-0 items-center justify-between bg-white w-96 h-auto px-5 py-4 rounded-md shadow-md transition ease-in-out duration-1000 border-solid border-b-4 border-r-4 border-gray-400">
+                            <div class="flex flex-row items-center text-lg font-semibold text-gray-800 hover:text-indigo-600 mb-2 pb-2 border-b-2 border-gray-300 hover:border-indigo-500 transition ease-in-out duration-300 cursor-default">
+                                <svg
+                                    class="w-8 h-8"
+                                    fill="currentColor"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z">
+                                    </path>
+                                    <path
+                                        class="z-10 text-white transition ease-in-out duration-1000"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z">
+                                    </path>
+                                </svg>
+                                <span class="ml-4 font-title text-gray-800 transition ease-in-out duration-1000">Featured Discussions</span>
+                            </div>
+                            <div class="flex flex-col h-72 w-full overflow-auto">
+                            </div>
+                        </div>
+                        <!--Featured topics-->
+                        <div
+                            class="m-5 ml-0 items-center justify-between bg-white w-96 h-auto px-5 py-4 rounded-md shadow-md transition ease-in-out duration-1000 border-solid border-b-4 border-r-4 border-gray-400">
+                            <div class="flex flex-row items-center text-lg font-semibold text-gray-800 hover:text-indigo-600 mb-2 pb-2 border-b-2 border-gray-300 hover:border-indigo-500 transition ease-in-out duration-300 cursor-default">
+                                <svg
+                                    class="w-8 h-8"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z">
+                                    </path>
+                                </svg>
+                                <span class="ml-4 font-title text-gray-800 transition ease-in-out duration-1000">Featured Topics</span>
+                            </div>
+                            <div class="flex flex-col h-56 w-full overflow-auto">
+                            </div>
+                        </div>
+                        <!--Product-->
+                        <div
+                            class="m-5 ml-0 items-center justify-between bg-white w-96 h-auto px-5 py-4 rounded-md shadow-md transition ease-in-out duration-1000  border-solid border-b-4 border-r-4 border-gray-400">
+                            <div class="flex flex-row items-center text-lg font-semibold text-gray-800 hover:text-indigo-600 mb-2 pb-2 border-b-2 border-gray-300 hover:border-indigo-500 transition ease-in-out duration-300 cursor-default">
+                                <svg
+                                    class="w-8 h-8"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                    </path>
+                                </svg>
+                                <span class="ml-4 font-title text-gray-800 transition ease-in-out duration-1000">Product</span>
+                            </div>
+                            <div class="flex flex-col h-auto w-full overflow-auto">
+                                <a
+                                    href="../Support/Changelog.aspx"
+                                    class="flex flex-row h-auto py-2 rounded-md hover:bg-gray-200 text-gray-800 transition ease-in-out duration-300 items-center">
+                                    <span class="pl-1 pr-5">
+                                        <svg
+                                            class="w-6 h-6"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="1.5"
+                                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+                                            </path>
+                                        </svg>
+                                    </span>
+                                    <span class="text-gray-800 transition ease-in-out duration-300">Changelog</span>
+                                    <span class="text-gray-500 transition ease-in-out duration-300">: See what's new</span>
+                                </a>
+                                <a
+                                    href="../Support/Feedback.aspx"
+                                    class="flex flex-row h-auto py-2 rounded-md hover:bg-gray-200 text-gray-800 transition ease-in-out duration-300 items-center">
+                                    <span class="pl-1 pr-5">
+                                        <svg
+                                            class="w-6 h-6"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="1.5"
+                                                d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
+                                            </path>
+                                        </svg>
+                                    </span>
+                                    <span class="text-gray-800 transition ease-in-out duration-300">Feedback</span>
+                                    <span class="text-gray-500 transition ease-in-out duration-300">: Community's voice</span>
+                                </a>
+                            </div>
+                        </div>
+                        <!--Footer-->
+                        <footer class="pb-5 text-sm text-gray-200">
+                            <div class="grid grid-cols-2 gap-x-4 gap-y-1 w-96">
+                                <a href="../Support/About.aspx" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">About</a>
+                                <a href="../Support/Support.aspx" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">Support</a>
+                                <a href="../Support/Media.aspx" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">Logo & Media</a>
+                                <a href="../Support/Privacy.aspx" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">Privacy</a>
+                                <a href="../Support/Terms.aspx" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">Terms of service</a>
+                                <a href="../Support/Disclaimer.aspx" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">Disclaimer</a>
+                            </div>
+                            <div class="mt-5">
+                                <span class="px-4 font-medium font-title transition ease-in-out duration-300">Badcaps.net Technical Forums &#169; 2003 - 2021</span>
+                            </div>
+                            <div class="">
+                                <span class="px-4 font-medium font-title transition ease-in-out duration-300">Copyright &#169;2000 - 2021, Jelsoft Enterprises Ltd.</span>
+                            </div>
+                        </footer>
+                    </div>
+                </asp:Panel>
+
+                <%--Bottom Aside--%>
+                <asp:Panel ID="bottom_aside_panel" runat="server" Visible="false">
+                    <%--Footer--%>
+                    <div
+                        class="hidden md:flex mt-0 m-5 p-10 bg-white rounded-md flex-row flex-wrap justify-between items-center shadow-md h-auto transition ease-in-out duration-1000">
+                        <div class="flex flex-col items-start justify-items-start">
+                            <div class="text-2xl font-bold mb-2 font-title tracking-wide flex flex-row justify-center items-center text-gray-800">
+
+                                <span class="ml-3 uppercase">Badcaps.net Forums</span>
+                            </div>
+                            <div class="my-2">
+                                <span class="px-4 font-medium font-title transition ease-in-out duration-300">Badcaps.net Technical Forums &#169; 2003 - 2021</span>
+                            </div>
+                            <div class="">
+                                <span class="px-4 font-medium font-title transition ease-in-out duration-300">Copyright &#169;2000 - 2021, Jelsoft Enterprises Ltd.</span>
+                            </div>
+                        </div>
+                        <footer class="text-md text-gray-700">
+                            <div class="grid grid-cols-2 gap-x-4 gap-y-2 w-96">
+                                <a href="../Support/About.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">About</a>
+                                <a href="../Support/Support.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">Support</a>
+                                <a href="../Support/Media.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">Logo & Media</a>
+                                <a href="../Support/Privacy.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">Privacy</a>
+                                <a href="../Support/Terms.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">Terms of service</a>
+                                <a href="../Support/Disclaimer.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">Disclaimer</a>
+                            </div>
+                        </footer>
+                    </div>
+                    <%--End of Footer--%>
+                </asp:Panel>
+
+                <!--Mobile Aside-->
+                <div
+                    class="md:hidden mt-0 m-5 p-10 bg-white rounded-md flex flex-row flex-wrap justify-between items-center shadow-md h-auto transition ease-in-out duration-1000">
+                    <div class="flex flex-col items-start justify-items-start border-b-2 md:border-b-0 w-full md:w-auto mb-2 md:mb-0">
+                        <a href="../Discussion/Homepage.aspx" class="text-2xl font-bold mb-2 font-title tracking-wide flex flex-row justify-center items-center text-gray-800">
+
+                            <span class="ml-3">Badcaps.net Forums</span>
+                        </a>
+                        <div class="mt-5">
+                            <span class="px-4 text-sm font-title text-gray-700 transition ease-in-out duration-300">Badcaps.net Technical Forums &#169; 2003 - 2021</span>
+                        </div>
+                        <div class="mb-5">
+                            <span class="px-4 text-sm font-title text-gray-700 transition ease-in-out duration-300">Copyright &#169;2000 - 2021, Jelsoft Enterprises Ltd.</span>
+                        </div>
+                    </div>
+                    <div class="border-b-2 md:border-b-0 w-full md:w-auto">
+                        <div class="grid grid-cols-1 gap-x-4 gap-y-1 mb-2">
+                            <a href="../Support/Changelog.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Changelog</a>
+                            <a href="../Support/Feedback.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Feedback</a>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="grid grid-cols-1 gap-x-4 gap-y-1 w-48 mt-2">
+                            <a href="../Support/About.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">About</a>
+                            <a href="../Support/Support.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Support</a>
+                            <a href="../Support/Media.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Logo & Media</a>
+                            <a href="../Support/Privacy.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Privacy</a>
+                            <a href="../Support/Terms.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Terms and Conditions</a>
+                            <a href="../Support/Disclaimer.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Disclaimer</a>
+                        </div>
+                    </div>
+                </div>
+        </asp:Panel>
+
     </form>
 </body>
 </html>
