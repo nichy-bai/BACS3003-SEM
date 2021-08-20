@@ -44,6 +44,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="ProfanityFilter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Profanity.Detector.0.1.8\lib\netstandard2.0\ProfanityFilter.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -72,6 +75,7 @@
       <DependentUpon>BadcapsDB.mdf</DependentUpon>
     </Content>
     <Content Include="forum\index.aspx" />
+    <Content Include="forum\showthread.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +92,13 @@
     </Compile>
     <Compile Include="forum\index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="forum\showthread.aspx.cs">
+      <DependentUpon>showthread.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="forum\showthread.aspx.designer.cs">
+      <DependentUpon>showthread.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
