@@ -77,12 +77,17 @@
     <Content Include="App_Data\BadcapsDB_log.ldf">
       <DependentUpon>BadcapsDB.mdf</DependentUpon>
     </Content>
+    <Content Include="forum\editthread.aspx" />
+    <Content Include="forum\error.aspx" />
     <Content Include="forum\index.aspx" />
     <Content Include="forum\login.aspx" />
+    <Content Include="forum\loginerror.aspx" />
     <Content Include="forum\lostpw.aspx" />
+    <Content Include="forum\newthread.aspx" />
     <Content Include="forum\showthread.aspx" />
     <Content Include="forum\register.aspx" />
     <Content Include="forum\member.aspx" />
+    <Content Include="Illustrations\loginerror.svg" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +97,20 @@
     </Compile>
     <Compile Include="Badcaps.Master.designer.cs">
       <DependentUpon>Badcaps.Master</DependentUpon>
+    </Compile>
+    <Compile Include="forum\editthread.aspx.cs">
+      <DependentUpon>editthread.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="forum\editthread.aspx.designer.cs">
+      <DependentUpon>editthread.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="forum\error.aspx.cs">
+      <DependentUpon>error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="forum\error.aspx.designer.cs">
+      <DependentUpon>error.aspx</DependentUpon>
     </Compile>
     <Compile Include="forum\index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>
@@ -107,12 +126,26 @@
     <Compile Include="forum\login.aspx.designer.cs">
       <DependentUpon>login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="forum\loginerror.aspx.cs">
+      <DependentUpon>loginerror.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="forum\loginerror.aspx.designer.cs">
+      <DependentUpon>loginerror.aspx</DependentUpon>
+    </Compile>
     <Compile Include="forum\lostpw.aspx.cs">
       <DependentUpon>lostpw.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="forum\lostpw.aspx.designer.cs">
       <DependentUpon>lostpw.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="forum\newthread.aspx.cs">
+      <DependentUpon>newthread.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="forum\newthread.aspx.designer.cs">
+      <DependentUpon>newthread.aspx</DependentUpon>
     </Compile>
     <Compile Include="forum\register.aspx.cs">
       <DependentUpon>register.aspx</DependentUpon>

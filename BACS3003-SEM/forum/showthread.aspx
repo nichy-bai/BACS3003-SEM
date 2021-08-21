@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Badcaps.Master" AutoEventWireup="true" CodeBehind="showthread.aspx.cs" Inherits="BACS3003_SEM.forum.showthread" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Badcaps.Master" AutoEventWireup="true" CodeFile="showthread.aspx.cs" Inherits="BACS3003_SEM.forum.showthread" ValidateRequest="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <%--Share post modal box--%>
@@ -8,8 +8,7 @@
             <div class="py-5 text-left px-7">
                 <!--Title-->
                 <div class="flex justify-around items-center mb-5">
-                    <asp:LinkButton ID="share_url_btn" runat="server" CssClass="text-md md:text-xl font-bold text-gray-800 px-1 pb-1 border-b-2 border-gray-700" Text="Bookmark URL" OnCommand="share_url_btn_Command"></asp:LinkButton>
-                    <asp:LinkButton ID="share_embeded_btn" runat="server" CssClass="text-md md:text-xl font-bold text-gray-800 px-1 pb-1 border-b-2 border-transparent" Text="Embed Code" OnCommand="share_embeded_btn_Command"></asp:LinkButton>
+                    <asp:LinkButton ID="share_url_btn" runat="server" CssClass="text-md md:text-xl font-bold text-gray-800 px-1 pb-1 border-b-2 border-gray-700" Text="Thread URL" OnCommand="share_url_btn_Command" Enabled="false"></asp:LinkButton>
                 </div>
 
                 <!--Body-->
@@ -18,8 +17,8 @@
 
                 <!--Footer-->
                 <div class="flex justify-end">
-                    <asp:Button ID="copy_btn" runat="server" Text="Copy URL" CssClass="px-4 bg-transparent p-3 rounded-lg text-indigo-600 hover:bg-gray-100 mr-5 cursor-pointer" OnClientClick="copyURL()" OnClick="copy_btn_Click" />
-                    <asp:Button ID="close_btn" runat="server" Text="Close" CssClass="px-4 bg-indigo-600 p-3 rounded-lg text-white hover:bg-indigo-500 cursor-pointer" OnCommand="close_btn_Command" />
+                    <asp:Button ID="copy_btn" runat="server" Text="Copy URL" CssClass="px-4 bg-transparent p-3 rounded-lg text-gray-600 hover:bg-gray-100 mr-5 cursor-pointer" OnClientClick="copyURL()" OnClick="copy_btn_Click" />
+                    <asp:Button ID="close_btn" runat="server" Text="Close" CssClass="px-4 bg-gray-600 p-3 rounded-lg text-white hover:bg-gray-500 cursor-pointer" OnCommand="close_btn_Command" />
                 </div>
             </div>
         </div>
@@ -80,7 +79,7 @@
                                             </path>
                                         </svg>
                                     </asp:Panel>
-                                    <asp:Panel ID="count_equal_panel" runat="server" CssClass="text-gray-400 w-auto rounded-full border-2 border-gray-400" ToolTip="The number of times you have viewed a post is equal to the average." Visible="false">
+                                    <asp:Panel ID="count_equal_panel" runat="server" CssClass="text-gray-400 w-auto rounded-full border-2 border-gray-400" ToolTip="The number of times you have viewed the thread is equal to the average." Visible="false">
                                         <svg
                                             class="w-3 h-3"
                                             fill="none"
@@ -99,7 +98,7 @@
                             </tr>
                             <tr class="border-b-2">
                                 <td class="py-2 w-9/12">
-                                    <asp:Label ID="view_lbl_2" runat="server" CssClass="text-sm md:text-md text-gray-700" Text="Total number of views of this post"></asp:Label></td>
+                                    <asp:Label ID="view_lbl_2" runat="server" CssClass="text-sm md:text-md text-gray-700" Text="Total number of views of this thread"></asp:Label></td>
                                 <td class="pr-2">: </td>
                                 <td class="text-center">
                                     <asp:Label ID="count_lbl_2" runat="server" CssClass="text-md sm:text-lg text-gray-800 font-bold"></asp:Label></td>
@@ -121,7 +120,7 @@
 
                 <!--Footer-->
                 <div class="flex justify-end">
-                    <asp:Button ID="close_view_btn" runat="server" Text="Close" CssClass="px-4 bg-indigo-600 p-3 rounded-lg text-white hover:bg-indigo-500 cursor-pointer" OnCommand="close_view_btn_Command" />
+                    <asp:Button ID="close_view_btn" runat="server" Text="Close" CssClass="px-4 bg-gray-600 p-3 rounded-lg text-white hover:bg-gray-500 cursor-pointer" OnCommand="close_view_btn_Command" />
                 </div>
             </div>
         </div>
@@ -147,7 +146,7 @@
             </div>
             <%--Three dots--%>
             <div class="flex flex-row justify-center items-center relative">
-                <a href="#" id="threedot_btn" class="hover:text-indigo-600 transition ease-in-out duration-300" onclick="postDropdown()">
+                <a href="#" id="threedot_btn" class="hover:text-gray-600 transition ease-in-out duration-300" onclick="postDropdown()">
                     <svg
                         class="w-6 h-6"
                         fill="none"
@@ -165,7 +164,7 @@
                 <%--Dropdown--%>
                 <div id="threedot_dropdown" class="hidden flex flex-col absolute top-10 right-0 w-40 bg-white border-2 rounded-xl shadow-md">
                     <div>
-                        <asp:LinkButton runat="server" ID="threedot_dropdown_btn_1" CssClass="flex flex-row px-4 py-3 text-sm capitalize text-gray-700 hover:bg-indigo-500 hover:text-white rounded-xl transition ease-in-out duration-300" OnClick="threedot_dropdown_btn_1_Click">
+                        <asp:LinkButton runat="server" ID="threedot_dropdown_btn_1" CssClass="flex flex-row px-4 py-3 text-sm capitalize text-gray-700 hover:bg-gray-500 hover:text-white rounded-xl transition ease-in-out duration-300" OnClick="threedot_dropdown_btn_1_Click">
                             <svg
                                 class="w-6 h-6"
                                 fill="none"
@@ -179,9 +178,9 @@
                                     d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z">
                                 </path>
                             </svg>
-                            <span class="pl-2">Share Post</span>
+                            <span class="pl-2">Share Thread</span>
                         </asp:LinkButton>
-                        <asp:LinkButton runat="server" ID="threedot_dropdown_btn_2" CssClass="flex flex-row px-4 py-3 text-sm capitalize text-gray-700 hover:bg-indigo-500 hover:text-white rounded-xl transition ease-in-out duration-300" OnClick="threedot_dropdown_btn_2_Click">
+                        <asp:LinkButton runat="server" ID="threedot_dropdown_btn_2" CssClass="flex flex-row px-4 py-3 text-sm capitalize text-gray-700 hover:bg-gray-500 hover:text-white rounded-xl transition ease-in-out duration-300" OnClick="threedot_dropdown_btn_2_Click">
                             <svg
                                 class="w-6 h-6"
                                 fill="none"
@@ -195,9 +194,9 @@
                                     d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
                                 </path>
                             </svg>
-                            <span class="pl-2">Edit Post</span>
+                            <span class="pl-2">Edit Thread</span>
                         </asp:LinkButton>
-                        <asp:LinkButton runat="server" ID="threedot_dropdown_btn_3" CssClass="flex flex-row px-4 py-3 text-sm capitalize text-gray-700 hover:bg-indigo-500 hover:text-white rounded-xl transition ease-in-out duration-300" OnClick="threedot_dropdown_btn_3_Click" OnClientClick="return confirm('Are you sure to delete the discussion post?')">
+                        <asp:LinkButton runat="server" ID="threedot_dropdown_btn_3" CssClass="flex flex-row px-4 py-3 text-sm capitalize text-gray-700 hover:bg-gray-500 hover:text-white rounded-xl transition ease-in-out duration-300" OnClick="threedot_dropdown_btn_3_Click" OnClientClick="return confirm('Are you sure to delete the thread?')">
                             <svg
                                 class="w-6 h-6"
                                 fill="none"
@@ -211,23 +210,7 @@
                                     d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
                                 </path>
                             </svg>
-                            <span class="pl-2">Delete Post</span>
-                        </asp:LinkButton>
-                        <asp:LinkButton runat="server" ID="threedot_dropdown_btn_4" CssClass="flex flex-row px-4 py-3 text-sm capitalize text-gray-700 hover:bg-indigo-500 hover:text-white rounded-xl transition ease-in-out duration-300" OnClick="threedot_dropdown_btn_4_Click">
-                            <svg
-                                class="w-6 h-6"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="1.5"
-                                    d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9">
-                                </path>
-                            </svg>
-                            <span class="pl-2">Report Post</span>
+                            <span class="pl-2">Delete Thread</span>
                         </asp:LinkButton>
                     </div>
                 </div>
@@ -243,7 +226,7 @@
         </div>
         <%--Discussion tag--%>
         <div class="flex flex-row my-2 items-center">
-            <asp:LinkButton ID="topic_btn" runat="server" CssClass="mr-5" OnCommand="topic_btn_Command">
+            <asp:LinkButton ID="topic_btn" runat="server" CssClass="mr-5" Enabled="false">
                 <div runat="server" class="flex flex-row justify-center items-center text-sm md:text-md border-2 rounded-lg bg-gray-100 px-2 py-1 hover:bg-white transition ease-in-out duration-300">
                     <div class="mr-1">#</div>
                     <div>
@@ -251,7 +234,7 @@
                     </div>
                 </div>
             </asp:LinkButton>
-            <asp:LinkButton ID="tag_btn" runat="server" OnCommand="topic_btn_Command">
+            <asp:LinkButton ID="tag_btn" runat="server" Enabled="false">
                 <div runat="server" class="flex flex-row justify-center items-center text-sm md:text-md border-2 rounded-lg bg-gray-100 px-2 py-1 hover:bg-white transition ease-in-out duration-300">
                     <div class="mr-1">#</div>
                     <div>
@@ -356,24 +339,6 @@
                     </div>
                 </asp:LinkButton>
             </div>
-            <%--Report--%>
-            <div class="mr-4 mt-4">
-                <asp:Panel ID="post_report_panel" runat="server" CssClass="flex flex-row justify-start items-center px-2 py-1 text-yellow-600 cursor-help" Visible="false">
-                    <svg
-                        class="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="1.5"
-                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
-                        </path>
-                    </svg>
-                </asp:Panel>
-            </div>
         </div>
     </div>
 
@@ -411,7 +376,7 @@
 
         <div class="mt-0 m-5 p-5 px-6 bg-white rounded-lg flex flex-row flex-wrap justify-center md:justify-end items-center shadow-md h-auto transition ease-in-out duration-1000">
             <div class="mr-2 text-gray-800 text-sm">Sort By :</div>
-            <asp:LinkButton ID="old_comment_btn" runat="server" ToolTip="Sort comments from oldest to newest" CssClass="flex flex-row justify-center items-center w-24 text-indigo-600 bg-gray-200 hover:bg-gray-100 p-2 rounded-lg transition ease-in-out duration-300" OnCommand="old_comment_btn_Command">
+            <asp:LinkButton ID="old_comment_btn" runat="server" ToolTip="Sort comments from oldest to newest" CssClass="flex flex-row justify-center items-center w-24 text-gray-600 bg-gray-200 hover:bg-gray-100 p-2 rounded-lg transition ease-in-out duration-300" OnCommand="old_comment_btn_Command">
                 <svg
                     runat="server"
                     class="w-6 h-6"
@@ -483,7 +448,7 @@
 
                     <%--Delete comment btn--%>
                     <div>
-                        <asp:LinkButton ID="delete_comment_btn" runat="server" ToolTip="Delete Comment" Visible="false" CssClass="text-gray-500 hover:text-indigo-600 transition ease-in-out duration-300" CommandArgument='<%#Eval("commentID") %>' OnCommand="delete_comment_btn_Command" OnClientClick="return confirm('Are you sure to delete the comment?')">
+                        <asp:LinkButton ID="delete_comment_btn" runat="server" ToolTip="Delete Comment" Visible="false" CssClass="text-gray-500 hover:text-gray-600 transition ease-in-out duration-300" CommandArgument='<%#Eval("commentID") %>' OnCommand="delete_comment_btn_Command" OnClientClick="return confirm('Are you sure to delete the comment?')">
                             <svg
                                 class="w-6 h-6"
                                 fill="none"
@@ -502,7 +467,7 @@
 
                     <%--Reply comment btn--%>
                     <div>
-                        <asp:LinkButton ID="reply_comment_btn" runat="server" ToolTip="Reply Comment" Visible="false" CssClass="text-gray-500 hover:text-indigo-600 transition ease-in-out duration-300" CommandArgument='<%#Eval("commentID") %>' OnCommand="reply_comment_btn_Command">
+                        <asp:LinkButton ID="reply_comment_btn" runat="server" ToolTip="Reply Comment" Visible="false" CssClass="text-gray-500 hover:text-gray-600 transition ease-in-out duration-300" CommandArgument='<%#Eval("commentID") %>' OnCommand="reply_comment_btn_Command">
                             <svg
                                 class="w-5 h-5"
                                 fill="none"
@@ -579,7 +544,7 @@
 
                                 <%--Delete reply btn--%>
                                 <div>
-                                    <asp:LinkButton ID="delete_reply_btn" runat="server" ToolTip="Delete Reply" Visible="false" CssClass="text-gray-500 hover:text-indigo-600 transition ease-in-out duration-300" CommandArgument='<%#Eval("replyID") %>' OnCommand="delete_reply_btn_Command" OnClientClick="return confirm('Are you sure to delete the reply?')">
+                                    <asp:LinkButton ID="delete_reply_btn" runat="server" ToolTip="Delete Reply" Visible="false" CssClass="text-gray-500 hover:text-gray-600 transition ease-in-out duration-300" CommandArgument='<%#Eval("replyID") %>' OnCommand="delete_reply_btn_Command" OnClientClick="return confirm('Are you sure to delete the reply?')">
                                         <svg
                                             class="w-6 h-6"
                                             fill="none"
@@ -618,6 +583,20 @@
         function AutoExpand(txtbox) {
             txtbox.style.height = "1px";
             txtbox.style.height = (25 + txtbox.scrollHeight) + "px";
+        }
+
+        //Dropdown content
+        function postDropdown() {
+            document.getElementById("threedot_dropdown").classList.toggle('hidden');
+            document.getElementById("threedot_btn").classList.toggle('text-blue-600');
+        }
+
+        //Copy URL to clipboard
+        function copyURL() {
+            var copyText = document.getElementById("ContentPlaceHolder1_post_url_txt");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            document.execCommand("copy");
         }
     </script>
 

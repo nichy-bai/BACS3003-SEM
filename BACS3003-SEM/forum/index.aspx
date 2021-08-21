@@ -188,7 +188,7 @@
 
                 <!--Footer-->
                 <div class="flex justify-end">
-                    <asp:Button ID="confirm_btn" runat="server" Text="Confirm" CssClass="px-4 bg-blue-600 p-3 rounded-lg text-white hover:bg-blue-500 cursor-pointer" OnCommand="confirm_btn_Command" />
+                    <asp:Button ID="confirm_btn" runat="server" Text="Confirm" CssClass="px-4 bg-gray-600 p-3 rounded-lg text-white hover:bg-gray-500 cursor-pointer" OnCommand="confirm_btn_Command" />
                 </div>
             </div>
         </div>
@@ -198,7 +198,7 @@
         class="m-5 mt-0 px-5 py-4 bg-white rounded-md flex flex-row shadow-md h-auto transition ease-in-out duration-1000 border-solid border-b-4 border-r-4 border-gray-400">
         <div class="px-0 flex flex-row flex-grow">
             <div class="flex flex-col justify-center">
-                <span class="block text-4xl font-bold mb-2 font-title text-gray-700">Homepage</span>
+                <span class="block text-4xl font-bold mb-2 font-title text-gray-700">Badcaps Forums</span>
                 <span class="block text-gray-600">Recent discussions from the community</span>
             </div>
         </div>
@@ -227,7 +227,7 @@
         class="mt-0 m-5 px-5 py-4 bg-white rounded-md flex flex-row shadow-md h-auto dark-theme border-solid border-b-4 border-r-4 border-gray-400">
         <div title="Start an asynchronous discussion" class="bg-gray-200 hover:bg-gray-300 text-gray-600 hover:text-gray-700 w-full h-auto rounded-lg cursor-pointer transition ease-in-out duration-1000">
             <a
-                href="CreateDiscussion.aspx"
+                href="newthread.aspx"
                 class="px-0 flex flex-row flex-grow items-center m-5 text-lg h-auto">
                 <svg
                     class="w-8 h-8 mr-3"
@@ -242,7 +242,7 @@
                         d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z">
                     </path>
                 </svg>
-                <span>Start a discussion</span>
+                <span>New Thread</span>
                 <span class="tracking-wider">...</span>
             </a>
         </div>

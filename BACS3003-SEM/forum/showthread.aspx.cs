@@ -83,7 +83,6 @@ namespace BACS3003_SEM.forum
                         SqlCommand cmd8 = new SqlCommand("SELECT bookmarkStatus FROM Bookmark WHERE postID='" + postID + "'" + "AND userID='" + userID + "'", con);
                         SqlCommand cmd9 = new SqlCommand("SELECT COUNT(commentID) FROM DiscussionComment WHERE postID='" + postID + "' AND (commentStatus = 1) AND userID='" + userID + "'", con);
                         SqlCommand cmd10 = new SqlCommand("SELECT editDate FROM Post WHERE postID='" + postID + "'", con);
-                        SqlCommand cmd11 = new SqlCommand("SELECT reportID FROM Report WHERE postID='" + postID + "'", con);
                         SqlCommand cmd12 = new SqlCommand("SELECT profilePicture FROM [User] WHERE userID='" + userID_lbl.Text + "'", con);
 
                         topicName_lbl.Text = cmd2.ExecuteScalar().ToString();
@@ -143,13 +142,6 @@ namespace BACS3003_SEM.forum
                             editDate_lbl.ToolTip = "Edited on " + editDateFull;
                         }
 
-                        object obj5 = cmd11.ExecuteScalar();
-
-                        if (obj5 != null && DBNull.Value != obj5)
-                        {
-                            post_report_panel.Visible = true;
-                            post_report_panel.ToolTip = "This discussion post was recently reported by other users.\nIt may contain harmful content that violates regulations.";
-                        }
 
                         object obj6 = cmd12.ExecuteScalar();
 
@@ -203,12 +195,12 @@ namespace BACS3003_SEM.forum
                 }
                 else
                 {
-                    Response.Redirect("/WebForms/Error.aspx");
+                    Response.Redirect("error.aspx");
                 }
             }
             else
             {
-                Response.Redirect("/WebForms/LoginError.aspx");
+                Response.Redirect("loginerror.aspx");
                 //ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('You must log in as a customer to access this feature.');window.location ='../User/UserLogin.aspx';", true);
             }
 
@@ -489,7 +481,7 @@ namespace BACS3003_SEM.forum
         {
             //Edit Post
 
-            Response.Redirect("../Discussion/EditDiscussion.aspx?p=" + postID.Substring(2, postID.Length - 2));
+            Response.Redirect("editthread.aspx?p=" + postID.Substring(2, postID.Length - 2));
         }
 
         protected void threedot_dropdown_btn_3_Click(object sender, EventArgs e)
@@ -505,20 +497,12 @@ namespace BACS3003_SEM.forum
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "redirect",
             "alert('Successfully deleted!'); window.location='" +
-            Request.ApplicationPath + "../WebForms/Discussion/Homepage.aspx';", true);
-        }
-
-        protected void threedot_dropdown_btn_4_Click(object sender, EventArgs e)
-        {
-            //Report Post
-
-            Response.Redirect("../Discussion/ReportDiscussion.aspx?p=" + postID.Substring(2, postID.Length - 2));
+            Request.ApplicationPath + "index.aspx';", true);
         }
 
         protected void share_url_btn_Command(object sender, CommandEventArgs e)
         {
             share_url_btn.CssClass = share_url_btn.CssClass.Replace("border-transparent", "border-gray-700");
-            share_embeded_btn.CssClass = share_embeded_btn.CssClass.Replace("border-gray-700", "border-transparent");
             share_url_lbl.Text = "Copy this unique URL and share it with your friends to start an asynchronous discussion!";
             copy_btn.Text = "Copy URL";
 
@@ -526,22 +510,9 @@ namespace BACS3003_SEM.forum
             post_url_txt.CssClass = post_url_txt.CssClass.Replace("font-mono", "");
         }
 
-        protected void share_embeded_btn_Command(object sender, CommandEventArgs e)
-        {
-            share_url_btn.CssClass = share_url_btn.CssClass.Replace("border-gray-700", "border-transparent");
-            share_embeded_btn.CssClass = share_embeded_btn.CssClass.Replace("border-transparent", "border-gray-700");
-            share_url_lbl.Text = "Copy this unique embed code and share it on your website to promote the discussion!";
-            copy_btn.Text = "Copy Embed Code";
-
-            string url = Request.Url.AbsoluteUri.ToString().Replace("DiscussionPost", "EmbedPost");
-
-            post_url_txt.Text = "<iframe src='" + url + "' height='50%' width='100%' class='border-none'></iframe>";
-            post_url_txt.CssClass += " font-mono";
-        }
-
         protected void copy_btn_Click(object sender, EventArgs e)
         {
-            if (copy_btn.Text == "Copy URL" || copy_btn.Text == "Copy Embed Code")
+            if (copy_btn.Text == "Copy URL")
             {
                 copy_btn.Text = "Copied!";
             }
@@ -574,16 +545,6 @@ namespace BACS3003_SEM.forum
         {
             share_panel.Visible = false;
             Response.Redirect(Request.RawUrl);
-        }
-
-        protected void topic_btn_Command(object sender, CommandEventArgs e)
-        {
-            con.Open();
-            SqlCommand cmd = new SqlCommand("SELECT topicID FROM Topic WHERE topicName='" + topicName_lbl.Text + "'", con);
-            string id = cmd.ExecuteScalar().ToString();
-            con.Close();
-
-            Response.Redirect("../Explore/TrendingTopic.aspx?topic=" + id.Substring(2, id.Length - 2));
         }
 
         protected void view_global_btn_Command(object sender, CommandEventArgs e)
