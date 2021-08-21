@@ -4,13 +4,33 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Configuration;
+using System.Net;
+using System.Net.Mail;
+using System.IO;
+using System.Data;
+using Recaptcha;
+using System.Security.Cryptography;
+using System.Timers;
+using System.Threading.Tasks;
 
 namespace BACS3003_SEM.forum
 {
     public partial class login1 : System.Web.UI.Page
     {
+        protected static string ReCaptcha_Key = "6Lf0qpsaAAAAAI-YH5zd_MYyR-oxn_UHIiaOaDzY";
+        protected static string ReCaptcha_Secret = "6Lf0qpsaAAAAALnm7UJlOQeqXUhAmsVIPrK0nKeB";
+
+        [WebMethod]
+        public static string VerifyCaptcha(string response)
+        {
+            string url = "https://www.google.com/recaptcha/api/siteverify?secret=" + ReCaptcha_Secret + "&response=" + response;
+            return (new WebClient()).DownloadString(url);
+        }
+
         SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\BadcapsDB.mdf;Integrated Security=True;Timeout=60");
         protected void Page_Load(object sender, EventArgs e)
         {
