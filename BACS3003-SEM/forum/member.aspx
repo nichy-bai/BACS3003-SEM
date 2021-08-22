@@ -33,7 +33,7 @@
                                     <asp:Label ID="lblName" runat="server" Text="" CssClass="absolute text-3xl ml-10 font-bold break-words sm:break-normal"></asp:Label>
                                 </div>--%>
                             <div class="md:right-0 md:top-0 bottom-0 right-1 w-full md:w-auto absolute">
-                                <asp:Button ID="btnEditProfile" runat="server" Text="Edit" CssClass="block text-md px-6 py-2 rounded-md text-white hover:text-gray-600 bg-gray-600 font-bold hover:bg-white border-2 border-gray-600 transition ease-in-out duration-300>" />
+                                <asp:Button ID="btnEditProfile" runat="server" Text="Edit" OnClick="btnEditProfile_Click" CssClass="block text-md px-6 py-2 rounded-md text-white hover:text-gray-600 bg-gray-600 font-bold hover:bg-white border-2 border-gray-600 transition ease-in-out duration-300>" />
                             </div>
                         </div>
                         <div class="flex flex-col flex-1 text-gray-800 w-full">

@@ -16,17 +16,45 @@ namespace BACS3003_SEM
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["UserID"] != null)
+            {
+                userID = Session["UserID"].ToString();
+                linkBtnLogin.Visible = false;
+                linkBtnRegister.Visible = false;
+                linkBtnLogout.Visible = true;
+                post_user_img.Visible = true;
+            }
+            else
+            {
+                linkBtnLogin.Visible = true;
+                linkBtnRegister.Visible = true;
+                linkBtnLogout.Visible = false;
+                post_user_img.Visible = false;
+            }
 
+            //string path = HttpContext.Current.Request.Url.AbsolutePath;
+
+            //if (path.Contains("member/"))
+            //{
+            //    nav_profile_btn.CssClass = nav_profile_btn.CssClass.Replace("border-transparent", "border-indigo-500");
+            //}
+
+            SqlCommand cmd = new SqlCommand("SELECT profilePicture FROM [User] WHERE userID='" + userID + "'", con);
+            con.Open();
+
+            object obj = cmd.ExecuteScalar();
+
+            if (obj != null && DBNull.Value != obj)
+            {
+                post_user_img.ImageUrl = obj.ToString();
+            }
+
+            con.Close();
         }
 
         protected void linkBtnLogin_Click(object sender, EventArgs e)
         {
-            Response.Redirect("../User/UserLogin.aspx");
-        }
-
-        protected void linkBtnLogin2_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("../User/UserLogin.aspx");
+            Response.Redirect("../forum/login.aspx");
         }
 
         protected void post_btn_Command(object sender, CommandEventArgs e)
@@ -40,6 +68,17 @@ namespace BACS3003_SEM
         {
             string topicID = e.CommandArgument.ToString();
             Response.Redirect("../Explore/TrendingTopic.aspx?topic=" + topicID.Substring(2, topicID.Length - 2));
+        }
+
+        protected void linkBtnRegister_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("../forum/register.aspx");
+        }
+
+        protected void linkBtnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Abandon();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('You have been successfully logged out!');window.location ='../forum/index.aspx';", true);
         }
     }
 }
