@@ -19,189 +19,184 @@ namespace BACS3003_SEM.forum
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            HttpCookie sortCookie = Request.Cookies["sortCookie"];
+            string sort;
+
             if (Session["UserID"] != null)
             {
-                Page.Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                HttpCookie sortCookie = Request.Cookies["sortCookie"];
-                string sort;
-
                 userID = Session["UserID"].ToString();
+            }
 
-                postID = "DP" + Request.QueryString["p"];
+            postID = "DP" + Request.QueryString["p"];
 
-                con.Open();
-                SqlCommand status = new SqlCommand("SELECT postStatus FROM Post WHERE postID='" + postID + "'", con);
-                bool postStatus;
-                if (status.ExecuteScalar() != null)
-                {
-                    postStatus = true;
-                }
-                else
-                {
-                    postStatus = false;
-                }
-                con.Close();
+            con.Open();
+            SqlCommand status = new SqlCommand("SELECT postStatus FROM Post WHERE postID='" + postID + "'", con);
+            bool postStatus;
+            if (status.ExecuteScalar() != null)
+            {
+                postStatus = true;
+            }
+            else
+            {
+                postStatus = false;
+            }
+            con.Close();
 
-                if (postStatus)
+            if (postStatus)
+            {
+                if (!IsPostBack)
                 {
-                    if (!IsPostBack)
+                    string topic = null, tag = null;
+                    bool likeStatus = false, bookmarkStatus = false;
+                    int commentStatus = 0;
+
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT *,(SELECT COUNT(*) AS Expr1 FROM DiscussionLike WHERE (postID = Post.postID) AND (likeStatus = 1)) AS totalLike, (SELECT COUNT(*) AS Expr1 FROM DiscussionComment WHERE (postID = Post.postID)) AS totalComment, (SELECT COUNT(*) AS Expr1 FROM DiscussionView WHERE (postID = Post.postID)) AS totalView FROM Post INNER JOIN [User] ON Post.userID = [User].userID WHERE postID='" + postID + "'", con);
+                    cmd.CommandType = CommandType.Text;
+                    SqlDataReader dr = cmd.ExecuteReader();
+
+                    while (dr.Read())
                     {
-                        string topic = null, tag = null;
-                        bool likeStatus = false, bookmarkStatus = false;
-                        int commentStatus = 0;
+                        userID_lbl.Text = dr["userID"].ToString();
+                        userID_lbl.ToolTip = dr["name"].ToString();
 
-                        con.Open();
-                        SqlCommand cmd = new SqlCommand("SELECT *,(SELECT COUNT(*) AS Expr1 FROM DiscussionLike WHERE (postID = Post.postID) AND (likeStatus = 1)) AS totalLike, (SELECT COUNT(*) AS Expr1 FROM DiscussionComment WHERE (postID = Post.postID)) AS totalComment, (SELECT COUNT(*) AS Expr1 FROM DiscussionView WHERE (postID = Post.postID)) AS totalView FROM Post INNER JOIN [User] ON Post.userID = [User].userID WHERE postID='" + postID + "'", con);
-                        cmd.CommandType = CommandType.Text;
-                        SqlDataReader dr = cmd.ExecuteReader();
+                        postDate_lbl.Text = Convert.ToDateTime(dr["postDate"]).ToString("d MMMM yyyy");
+                        postDate_lbl.ToolTip = Convert.ToDateTime(dr["postDate"]).ToString("dddd, dd/MM/yyyy h:mm:ss tt");
 
-                        while (dr.Read())
-                        {
-                            userID_lbl.Text = dr["userID"].ToString();
-                            userID_lbl.ToolTip = dr["name"].ToString();
+                        postTitle_lbl.Text = dr["postTitle"].ToString();
+                        postContent_lbl.Text = dr["postContent"].ToString();
+                        topic = dr["topicID"].ToString();
+                        tag = dr["tagID"].ToString();
+                        postLike_lbl.Text = dr["totalLike"].ToString();
+                        postComment_lbl.Text = dr["totalComment"].ToString();
+                        postView_lbl.Text = dr["totalView"].ToString();
+                    }
+                    con.Close();
 
-                            postDate_lbl.Text = Convert.ToDateTime(dr["postDate"]).ToString("d MMMM yyyy");
-                            postDate_lbl.ToolTip = Convert.ToDateTime(dr["postDate"]).ToString("dddd, dd/MM/yyyy h:mm:ss tt");
+                    con.Open();
+                    SqlCommand cmd2 = new SqlCommand("SELECT topicName FROM Topic WHERE topicID='" + topic + "'", con);
+                    SqlCommand cmd3 = new SqlCommand("SELECT topicDesc FROM Topic WHERE topicID='" + topic + "'", con);
+                    SqlCommand cmd4 = new SqlCommand("SELECT tagName FROM Tag WHERE tagID='" + tag + "'", con);
+                    SqlCommand cmd5 = new SqlCommand("SELECT tagDesc FROM Tag WHERE tagID='" + tag + "'", con);
+                    SqlCommand cmd6 = new SqlCommand("SELECT likeStatus FROM DiscussionLike WHERE postID='" + postID + "'" + "AND userID='" + userID + "'", con);
+                    SqlCommand cmd7 = new SqlCommand("SELECT COUNT(bookmarkID) FROM Bookmark WHERE postID='" + postID + "' AND (bookmarkStatus = 1)", con);
+                    SqlCommand cmd8 = new SqlCommand("SELECT bookmarkStatus FROM Bookmark WHERE postID='" + postID + "'" + "AND userID='" + userID + "'", con);
+                    SqlCommand cmd9 = new SqlCommand("SELECT COUNT(commentID) FROM DiscussionComment WHERE postID='" + postID + "' AND (commentStatus = 1) AND userID='" + userID + "'", con);
+                    SqlCommand cmd10 = new SqlCommand("SELECT editDate FROM Post WHERE postID='" + postID + "'", con);
+                    SqlCommand cmd12 = new SqlCommand("SELECT profilePicture FROM [User] WHERE userID='" + userID_lbl.Text + "'", con);
 
-                            postTitle_lbl.Text = dr["postTitle"].ToString();
-                            postContent_lbl.Text = dr["postContent"].ToString();
-                            topic = dr["topicID"].ToString();
-                            tag = dr["tagID"].ToString();
-                            postLike_lbl.Text = dr["totalLike"].ToString();
-                            postComment_lbl.Text = dr["totalComment"].ToString();
-                            postView_lbl.Text = dr["totalView"].ToString();
-                        }
-                        con.Close();
+                    topicName_lbl.Text = cmd2.ExecuteScalar().ToString();
+                    topic_btn.ToolTip = cmd3.ExecuteScalar().ToString();
 
-                        con.Open();
-                        SqlCommand cmd2 = new SqlCommand("SELECT topicName FROM Topic WHERE topicID='" + topic + "'", con);
-                        SqlCommand cmd3 = new SqlCommand("SELECT topicDesc FROM Topic WHERE topicID='" + topic + "'", con);
-                        SqlCommand cmd4 = new SqlCommand("SELECT tagName FROM Tag WHERE tagID='" + tag + "'", con);
-                        SqlCommand cmd5 = new SqlCommand("SELECT tagDesc FROM Tag WHERE tagID='" + tag + "'", con);
-                        SqlCommand cmd6 = new SqlCommand("SELECT likeStatus FROM DiscussionLike WHERE postID='" + postID + "'" + "AND userID='" + userID + "'", con);
-                        SqlCommand cmd7 = new SqlCommand("SELECT COUNT(bookmarkID) FROM Bookmark WHERE postID='" + postID + "' AND (bookmarkStatus = 1)", con);
-                        SqlCommand cmd8 = new SqlCommand("SELECT bookmarkStatus FROM Bookmark WHERE postID='" + postID + "'" + "AND userID='" + userID + "'", con);
-                        SqlCommand cmd9 = new SqlCommand("SELECT COUNT(commentID) FROM DiscussionComment WHERE postID='" + postID + "' AND (commentStatus = 1) AND userID='" + userID + "'", con);
-                        SqlCommand cmd10 = new SqlCommand("SELECT editDate FROM Post WHERE postID='" + postID + "'", con);
-                        SqlCommand cmd12 = new SqlCommand("SELECT profilePicture FROM [User] WHERE userID='" + userID_lbl.Text + "'", con);
+                    tagName_lbl.Text = cmd4.ExecuteScalar().ToString();
+                    tag_btn.ToolTip = cmd5.ExecuteScalar().ToString();
 
-                        topicName_lbl.Text = cmd2.ExecuteScalar().ToString();
-                        topic_btn.ToolTip = cmd3.ExecuteScalar().ToString();
+                    object obj = cmd6.ExecuteScalar();
 
-                        tagName_lbl.Text = cmd4.ExecuteScalar().ToString();
-                        tag_btn.ToolTip = cmd5.ExecuteScalar().ToString();
-
-                        object obj = cmd6.ExecuteScalar();
-
-                        if (obj != null && DBNull.Value != obj)
-                        {
-                            likeStatus = (bool)cmd6.ExecuteScalar();
-                        }
-
-                        if (likeStatus)
-                        {
-                            react_like_btn.ForeColor = System.Drawing.ColorTranslator.FromHtml(hex);
-                            react_like_btn.ToolTip = "Unlike";
-                        }
-
-                        postBookmark_lbl.Text = cmd7.ExecuteScalar().ToString();
-
-                        object obj2 = cmd8.ExecuteScalar();
-
-                        if (obj2 != null && DBNull.Value != obj2)
-                        {
-                            bookmarkStatus = (bool)cmd8.ExecuteScalar();
-                        }
-
-                        if (bookmarkStatus)
-                        {
-                            react_bookmark_btn.ForeColor = System.Drawing.ColorTranslator.FromHtml(hex);
-                            react_bookmark_btn.ToolTip = "Unbookmark";
-                        }
-
-                        object obj3 = cmd9.ExecuteScalar();
-
-                        if (obj3 != null && DBNull.Value != obj3)
-                        {
-                            commentStatus = Int32.Parse(cmd9.ExecuteScalar().ToString());
-                        }
-
-                        if (commentStatus > 0)
-                        {
-                            react_comment_btn.ForeColor = System.Drawing.ColorTranslator.FromHtml(hex);
-                        }
-
-                        object obj4 = cmd10.ExecuteScalar();
-
-                        if (obj4 != null && DBNull.Value != obj4)
-                        {
-                            string editDate = Convert.ToDateTime(cmd10.ExecuteScalar()).ToString("d MMMM yyyy");
-                            string editDateFull = Convert.ToDateTime(cmd10.ExecuteScalar()).ToString("dddd, dd/MM/yyyy h:mm:ss tt");
-
-                            editDate_lbl.Text = "(Edited on " + editDate + ")";
-                            editDate_lbl.ToolTip = "Edited on " + editDateFull;
-                        }
-
-
-                        object obj6 = cmd12.ExecuteScalar();
-
-                        if (obj6 != null && DBNull.Value != obj6)
-                        {
-                            post_user_img.ImageUrl = obj6.ToString();
-                        }
-
-                        con.Close();
-
-                        SqlDataSource1.SelectParameters.Add("postID", postID.ToString());
-
-                        if (userID != userID_lbl.Text)
-                        {
-                            threedot_dropdown_btn_2.Visible = false;
-                            threedot_dropdown_btn_3.Visible = false;
-                        }
-
-                        IncreaseViewCount();
+                    if (obj != null && DBNull.Value != obj)
+                    {
+                        likeStatus = (bool)cmd6.ExecuteScalar();
                     }
 
-                    if (sortCookie != null)
+                    if (likeStatus)
                     {
-                        sort = sortCookie["Sort"];
-
-                        if (sort == "Old")
-                        {
-                            SqlDataSource1.SelectCommand = "SELECT DiscussionComment.commentID, DiscussionComment.commentContent, DiscussionComment.commentDate, DiscussionComment.postID, DiscussionComment.userID, DiscussionComment.commentStatus, [User].name, [User].profilePicture FROM DiscussionComment INNER JOIN [User] ON DiscussionComment.userID = [User].userID WHERE (DiscussionComment.postID = @postID) ORDER BY DiscussionComment.commentDate ASC";
-                            SqlDataSource1.Select(DataSourceSelectArguments.Empty);
-                            SqlDataSource1.DataBind();
-                            Repeater1.DataBind();
-
-                            old_comment_btn.CssClass = old_comment_btn.CssClass.Replace("text-gray-800", "text-indigo-600");
-                            old_comment_btn.CssClass = old_comment_btn.CssClass.Replace("bg-white", "bg-gray-200");
-                            new_comment_btn.CssClass = new_comment_btn.CssClass.Replace("text-indigo-600", "text-gray-800");
-                            new_comment_btn.CssClass = new_comment_btn.CssClass.Replace("bg-gray-200", "bg-white");
-                        }
-                        else if (sort == "New")
-                        {
-                            SqlDataSource1.SelectCommand = "SELECT DiscussionComment.commentID, DiscussionComment.commentContent, DiscussionComment.commentDate, DiscussionComment.postID, DiscussionComment.userID, DiscussionComment.commentStatus, [User].name, [User].profilePicture FROM DiscussionComment INNER JOIN [User] ON DiscussionComment.userID = [User].userID WHERE (DiscussionComment.postID = @postID) ORDER BY DiscussionComment.commentDate DESC";
-                            SqlDataSource1.Select(DataSourceSelectArguments.Empty);
-                            SqlDataSource1.DataBind();
-                            Repeater1.DataBind();
-
-                            old_comment_btn.CssClass = old_comment_btn.CssClass.Replace("text-indigo-600", "text-gray-800");
-                            old_comment_btn.CssClass = old_comment_btn.CssClass.Replace("bg-gray-200", "bg-white");
-                            new_comment_btn.CssClass = new_comment_btn.CssClass.Replace("text-gray-800", "text-indigo-600");
-                            new_comment_btn.CssClass = new_comment_btn.CssClass.Replace("bg-white", "bg-gray-200");
-                        }
+                        react_like_btn.ForeColor = System.Drawing.ColorTranslator.FromHtml(hex);
+                        react_like_btn.ToolTip = "Unlike";
                     }
+
+                    postBookmark_lbl.Text = cmd7.ExecuteScalar().ToString();
+
+                    object obj2 = cmd8.ExecuteScalar();
+
+                    if (obj2 != null && DBNull.Value != obj2)
+                    {
+                        bookmarkStatus = (bool)cmd8.ExecuteScalar();
+                    }
+
+                    if (bookmarkStatus)
+                    {
+                        react_bookmark_btn.ForeColor = System.Drawing.ColorTranslator.FromHtml(hex);
+                        react_bookmark_btn.ToolTip = "Unbookmark";
+                    }
+
+                    object obj3 = cmd9.ExecuteScalar();
+
+                    if (obj3 != null && DBNull.Value != obj3)
+                    {
+                        commentStatus = Int32.Parse(cmd9.ExecuteScalar().ToString());
+                    }
+
+                    if (commentStatus > 0)
+                    {
+                        react_comment_btn.ForeColor = System.Drawing.ColorTranslator.FromHtml(hex);
+                    }
+
+                    object obj4 = cmd10.ExecuteScalar();
+
+                    if (obj4 != null && DBNull.Value != obj4)
+                    {
+                        string editDate = Convert.ToDateTime(cmd10.ExecuteScalar()).ToString("d MMMM yyyy");
+                        string editDateFull = Convert.ToDateTime(cmd10.ExecuteScalar()).ToString("dddd, dd/MM/yyyy h:mm:ss tt");
+
+                        editDate_lbl.Text = "(Edited on " + editDate + ")";
+                        editDate_lbl.ToolTip = "Edited on " + editDateFull;
+                    }
+
+
+                    object obj6 = cmd12.ExecuteScalar();
+
+                    if (obj6 != null && DBNull.Value != obj6)
+                    {
+                        post_user_img.ImageUrl = obj6.ToString();
+                    }
+
+                    con.Close();
+
+                    SqlDataSource1.SelectParameters.Add("postID", postID.ToString());
+
+                    if (userID != userID_lbl.Text)
+                    {
+                        threedot_dropdown_btn_2.Visible = false;
+                        threedot_dropdown_btn_3.Visible = false;
+                    }
+
+                    IncreaseViewCount();
                 }
-                else
+
+                if (sortCookie != null)
                 {
-                    Response.Redirect("error.aspx");
+                    sort = sortCookie["Sort"];
+
+                    if (sort == "Old")
+                    {
+                        SqlDataSource1.SelectCommand = "SELECT DiscussionComment.commentID, DiscussionComment.commentContent, DiscussionComment.commentDate, DiscussionComment.postID, DiscussionComment.userID, DiscussionComment.commentStatus, [User].name, [User].profilePicture FROM DiscussionComment INNER JOIN [User] ON DiscussionComment.userID = [User].userID WHERE (DiscussionComment.postID = @postID) ORDER BY DiscussionComment.commentDate ASC";
+                        SqlDataSource1.Select(DataSourceSelectArguments.Empty);
+                        SqlDataSource1.DataBind();
+                        Repeater1.DataBind();
+
+                        old_comment_btn.CssClass = old_comment_btn.CssClass.Replace("text-gray-800", "text-indigo-600");
+                        old_comment_btn.CssClass = old_comment_btn.CssClass.Replace("bg-white", "bg-gray-200");
+                        new_comment_btn.CssClass = new_comment_btn.CssClass.Replace("text-indigo-600", "text-gray-800");
+                        new_comment_btn.CssClass = new_comment_btn.CssClass.Replace("bg-gray-200", "bg-white");
+                    }
+                    else if (sort == "New")
+                    {
+                        SqlDataSource1.SelectCommand = "SELECT DiscussionComment.commentID, DiscussionComment.commentContent, DiscussionComment.commentDate, DiscussionComment.postID, DiscussionComment.userID, DiscussionComment.commentStatus, [User].name, [User].profilePicture FROM DiscussionComment INNER JOIN [User] ON DiscussionComment.userID = [User].userID WHERE (DiscussionComment.postID = @postID) ORDER BY DiscussionComment.commentDate DESC";
+                        SqlDataSource1.Select(DataSourceSelectArguments.Empty);
+                        SqlDataSource1.DataBind();
+                        Repeater1.DataBind();
+
+                        old_comment_btn.CssClass = old_comment_btn.CssClass.Replace("text-indigo-600", "text-gray-800");
+                        old_comment_btn.CssClass = old_comment_btn.CssClass.Replace("bg-gray-200", "bg-white");
+                        new_comment_btn.CssClass = new_comment_btn.CssClass.Replace("text-gray-800", "text-indigo-600");
+                        new_comment_btn.CssClass = new_comment_btn.CssClass.Replace("bg-white", "bg-gray-200");
+                    }
                 }
             }
             else
             {
-                Response.Redirect("loginerror.aspx");
-                //ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('You must log in as a customer to access this feature.');window.location ='../User/UserLogin.aspx';", true);
+                Response.Redirect("error.aspx");
             }
 
         }
@@ -209,14 +204,21 @@ namespace BACS3003_SEM.forum
         //ProfileView Click
         protected void userProfile_btn_Command(object sender, CommandEventArgs e)
         {
-            string viewUserID = userID_lbl.Text;
-            if (viewUserID != Session["UserID"].ToString())
+            if (Session["UserID"] != null)
             {
-                Response.Redirect("../User/ViewProfile.aspx?userid=" + viewUserID);
+                string viewUserID = userID_lbl.Text;
+                if (viewUserID != Session["UserID"].ToString())
+                {
+                    Response.Redirect("../User/ViewProfile.aspx?userid=" + viewUserID);
+                }
+                else
+                {
+                    Response.Redirect("../User/UserProfile.aspx");
+                }
             }
             else
             {
-                Response.Redirect("../User/UserProfile.aspx");
+                Response.Redirect("loginerror.aspx");
             }
         }
 
@@ -304,62 +306,65 @@ namespace BACS3003_SEM.forum
 
         private void IncreaseViewCount()
         {
-            string viewDate = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-            int viewCount, totalViewCount;
-            string userID = Session["UserID"].ToString();
-            GenerateViewID();
-
-            con.Open();
-            SqlCommand cmd = new SqlCommand("SELECT viewID FROM DiscussionView WHERE userID='" + userID + "' AND postID='" + postID + "'", con);
-            SqlCommand cmd2 = new SqlCommand("SELECT viewCount FROM DiscussionView WHERE userID='" + userID + "' AND postID='" + postID + "'", con);
-            SqlCommand cmd3 = new SqlCommand("SELECT COUNT(viewID) FROM DiscussionView WHERE postID='" + postID + "'", con);
-
-            object obj = cmd.ExecuteScalar();
-
-            if (obj != null && DBNull.Value != obj)
+            if (Session["UserID"] != null)
             {
-                viewID = cmd.ExecuteScalar().ToString();
-                viewCount = (int)cmd2.ExecuteScalar();
-                viewCount += 1;
-                SqlCommand update = new SqlCommand("UPDATE DiscussionView SET viewCount='" + viewCount + "' WHERE userID='" + userID + "' AND postID='" + postID + "'", con);
+                string viewDate = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                int viewCount, totalViewCount;
+                string userID = Session["UserID"].ToString();
+                GenerateViewID();
 
-                update.ExecuteNonQuery();
-            }
-            else
-            {
-                viewCount = 1;
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT viewID FROM DiscussionView WHERE userID='" + userID + "' AND postID='" + postID + "'", con);
+                SqlCommand cmd2 = new SqlCommand("SELECT viewCount FROM DiscussionView WHERE userID='" + userID + "' AND postID='" + postID + "'", con);
+                SqlCommand cmd3 = new SqlCommand("SELECT COUNT(viewID) FROM DiscussionView WHERE postID='" + postID + "'", con);
 
-                SqlCommand insert = new SqlCommand("INSERT INTO DiscussionView(viewID, viewCount, viewDate, postID, userID) VALUES (@viewID, @viewCount, @viewDate, @postID, @userID)", con);
-                insert.Parameters.AddWithValue("@viewID", viewID);
-                insert.Parameters.AddWithValue("@viewCount", viewCount);
-                insert.Parameters.AddWithValue("@viewDate", viewDate);
-                insert.Parameters.AddWithValue("@postID", postID);
-                insert.Parameters.AddWithValue("@userID", userID);
+                object obj = cmd.ExecuteScalar();
 
-                insert.ExecuteNonQuery();
-            }
-
-            totalViewCount = (int)cmd3.ExecuteScalar();
-
-            con.Close();
-
-            if (totalViewCount < 2 && viewCount < 2)
-            {
-                react_view_btn.ToolTip = "No one has viewed this post yet.\nYou are the first.";
-            }
-            else if (totalViewCount < 2)
-            {
-                react_view_btn.ToolTip = "You are the first to view this post.\nYou have viewed this post " + viewCount + " times.";
-            }
-            else
-            {
-                if (viewCount < 2)
+                if (obj != null && DBNull.Value != obj)
                 {
-                    react_view_btn.ToolTip = totalViewCount - 1 + " people have viewed this post.";
+                    viewID = cmd.ExecuteScalar().ToString();
+                    viewCount = (int)cmd2.ExecuteScalar();
+                    viewCount += 1;
+                    SqlCommand update = new SqlCommand("UPDATE DiscussionView SET viewCount='" + viewCount + "' WHERE userID='" + userID + "' AND postID='" + postID + "'", con);
+
+                    update.ExecuteNonQuery();
                 }
                 else
                 {
-                    react_view_btn.ToolTip = totalViewCount + " people have viewed this post.\nYou have viewed this post " + viewCount + " times.";
+                    viewCount = 1;
+
+                    SqlCommand insert = new SqlCommand("INSERT INTO DiscussionView(viewID, viewCount, viewDate, postID, userID) VALUES (@viewID, @viewCount, @viewDate, @postID, @userID)", con);
+                    insert.Parameters.AddWithValue("@viewID", viewID);
+                    insert.Parameters.AddWithValue("@viewCount", viewCount);
+                    insert.Parameters.AddWithValue("@viewDate", viewDate);
+                    insert.Parameters.AddWithValue("@postID", postID);
+                    insert.Parameters.AddWithValue("@userID", userID);
+
+                    insert.ExecuteNonQuery();
+                }
+
+                totalViewCount = (int)cmd3.ExecuteScalar();
+
+                con.Close();
+
+                if (totalViewCount < 2 && viewCount < 2)
+                {
+                    react_view_btn.ToolTip = "No one has viewed this post yet.\nYou are the first.";
+                }
+                else if (totalViewCount < 2)
+                {
+                    react_view_btn.ToolTip = "You are the first to view this post.\nYou have viewed this post " + viewCount + " times.";
+                }
+                else
+                {
+                    if (viewCount < 2)
+                    {
+                        react_view_btn.ToolTip = totalViewCount - 1 + " people have viewed this post.";
+                    }
+                    else
+                    {
+                        react_view_btn.ToolTip = totalViewCount + " people have viewed this post.\nYou have viewed this post " + viewCount + " times.";
+                    }
                 }
             }
         }
@@ -607,55 +612,62 @@ namespace BACS3003_SEM.forum
 
         protected void comment_btn_Command(object sender, CommandEventArgs e)
         {
-            var filter = new ProfanityFilter.ProfanityFilter();
-
-            GenerateCommentID();
-
-            string commentContent = comment_txt.Text.TrimEnd('\r', '\n').Replace("\n", "<br>");
-            commentContent = filter.CensorString(commentContent);
-            string commentDate = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-            bool commentStatus = true;
-
-            //To be modified
-            string userID = Session["UserID"].ToString();
-
-            if (!String.IsNullOrEmpty(comment_txt.Text))
+            if (Session["UserID"] != null)
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO DiscussionComment(commentID, commentContent, commentDate, postID, userID, commentStatus) VALUES (@commentID, @commentContent, @commentDate, @postID, @userID, @commentStatus)", con);
-                cmd.Parameters.AddWithValue("@commentID", commentID);
-                cmd.Parameters.AddWithValue("@commentContent", commentContent);
-                cmd.Parameters.AddWithValue("@commentDate", commentDate);
-                cmd.Parameters.AddWithValue("@postID", postID);
-                cmd.Parameters.AddWithValue("@userID", userID);
-                cmd.Parameters.AddWithValue("@commentStatus", commentStatus);
-                con.Open();
-                cmd.ExecuteNonQuery();
-                con.Close();
+                var filter = new ProfanityFilter.ProfanityFilter();
 
+                GenerateCommentID();
 
-                if (userID_lbl.Text != Session["UserID"].ToString())
+                string commentContent = comment_txt.Text.TrimEnd('\r', '\n').Replace("\n", "<br>");
+                commentContent = filter.CensorString(commentContent);
+                string commentDate = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                bool commentStatus = true;
+
+                //To be modified
+                string userID = Session["UserID"].ToString();
+
+                if (!String.IsNullOrEmpty(comment_txt.Text))
                 {
-                    string content = Session["UserID"].ToString() + " has commented on your post.";
-
-                    SqlCommand insertNotification = new SqlCommand("INSERT INTO Notification(userID, notificationContent, notificationDate, ownerUserID, postID) VALUES (@UserID, @Content, @ContentDate , @OwnerUserID, @PostID)", con);
-
-                    insertNotification.Parameters.AddWithValue("@UserID", Session["UserID"].ToString());
-                    insertNotification.Parameters.AddWithValue("@Content", content);
-                    insertNotification.Parameters.AddWithValue("@ContentDate", commentDate);
-                    insertNotification.Parameters.AddWithValue("@OwnerUserID", userID_lbl.Text);
-                    insertNotification.Parameters.AddWithValue("@PostID", postID);
+                    SqlCommand cmd = new SqlCommand("INSERT INTO DiscussionComment(commentID, commentContent, commentDate, postID, userID, commentStatus) VALUES (@commentID, @commentContent, @commentDate, @postID, @userID, @commentStatus)", con);
+                    cmd.Parameters.AddWithValue("@commentID", commentID);
+                    cmd.Parameters.AddWithValue("@commentContent", commentContent);
+                    cmd.Parameters.AddWithValue("@commentDate", commentDate);
+                    cmd.Parameters.AddWithValue("@postID", postID);
+                    cmd.Parameters.AddWithValue("@userID", userID);
+                    cmd.Parameters.AddWithValue("@commentStatus", commentStatus);
                     con.Open();
-                    insertNotification.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
                     con.Close();
+
+
+                    if (userID_lbl.Text != Session["UserID"].ToString())
+                    {
+                        string content = Session["UserID"].ToString() + " has commented on your post.";
+
+                        SqlCommand insertNotification = new SqlCommand("INSERT INTO Notification(userID, notificationContent, notificationDate, ownerUserID, postID) VALUES (@UserID, @Content, @ContentDate , @OwnerUserID, @PostID)", con);
+
+                        insertNotification.Parameters.AddWithValue("@UserID", Session["UserID"].ToString());
+                        insertNotification.Parameters.AddWithValue("@Content", content);
+                        insertNotification.Parameters.AddWithValue("@ContentDate", commentDate);
+                        insertNotification.Parameters.AddWithValue("@OwnerUserID", userID_lbl.Text);
+                        insertNotification.Parameters.AddWithValue("@PostID", postID);
+                        con.Open();
+                        insertNotification.ExecuteNonQuery();
+                        con.Close();
+                    }
+
+                    comment_txt.Text = "";
+
+                    Response.Redirect(Request.RawUrl);
                 }
-
-                comment_txt.Text = "";
-
-                Response.Redirect(Request.RawUrl);
+                else
+                {
+                    Response.Write("<script>alert('Comment cannot be empty')</script>");
+                }
             }
             else
             {
-                Response.Write("<script>alert('Comment cannot be empty')</script>");
+                Response.Redirect("loginerror.aspx");
             }
         }
 
@@ -719,153 +731,172 @@ namespace BACS3003_SEM.forum
 
         protected void reply_comment_btn_Command(object sender, CommandEventArgs e)
         {
-            LinkButton btn = (LinkButton)sender;
-            RepeaterItem item = (RepeaterItem)btn.NamingContainer;
-            Panel p1 = (Panel)item.FindControl("reply_panel");
-            TextBox txt = (TextBox)item.FindControl("reply_txt");
-            p1.Visible = true;
-            txt.Focus();
+            if (Session["UserID"] != null)
+            {
+                LinkButton btn = (LinkButton)sender;
+                RepeaterItem item = (RepeaterItem)btn.NamingContainer;
+                Panel p1 = (Panel)item.FindControl("reply_panel");
+                TextBox txt = (TextBox)item.FindControl("reply_txt");
+                p1.Visible = true;
+                txt.Focus();
+            }
+            else
+            {
+                Response.Redirect("loginerror.aspx");
+            }
         }
 
         protected void reply_btn_Command(object sender, CommandEventArgs e)
         {
-            var filter = new ProfanityFilter.ProfanityFilter();
-
-            GenerateReplyID();
-
-            string comment = e.CommandArgument.ToString();
-            string reply = null;
-
-            RepeaterItem item = (sender as LinkButton).NamingContainer as RepeaterItem;
-            reply = (item.FindControl("reply_txt") as TextBox).Text;
-
-            string replyContent = reply.TrimEnd('\r', '\n').Replace("\n", "<br>");
-            replyContent = filter.CensorString(replyContent);
-            string replyDate = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-            bool replyStatus = true;
-
-            //To be modified
-            string userID = Session["UserID"].ToString();
-
-            if (!String.IsNullOrEmpty(reply))
+            if (Session["UserID"] != null)
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO DiscussionReply(replyID, replyContent, replyDate, commentID, userID, replyStatus) VALUES (@replyID, @replyContent, @replyDate, @commentID, @userID, @replyStatus)", con);
-                cmd.Parameters.AddWithValue("@replyID", replyID);
-                cmd.Parameters.AddWithValue("@replyContent", replyContent);
-                cmd.Parameters.AddWithValue("@replyDate", replyDate);
-                cmd.Parameters.AddWithValue("@commentID", comment);
-                cmd.Parameters.AddWithValue("@userID", userID);
-                cmd.Parameters.AddWithValue("@replyStatus", replyStatus);
-                con.Open();
-                cmd.ExecuteNonQuery();
-                con.Close();
+                var filter = new ProfanityFilter.ProfanityFilter();
 
-                con.Open();
-                SqlCommand selectCommentID = new SqlCommand("SELECT userID FROM DiscussionComment WHERE commentID='" + comment + "'", con);
-                string userCommentID = selectCommentID.ExecuteScalar().ToString();
-                con.Close();
+                GenerateReplyID();
 
+                string comment = e.CommandArgument.ToString();
+                string reply = null;
 
+                RepeaterItem item = (sender as LinkButton).NamingContainer as RepeaterItem;
+                reply = (item.FindControl("reply_txt") as TextBox).Text;
 
-                if (userCommentID != Session["UserID"].ToString())
+                string replyContent = reply.TrimEnd('\r', '\n').Replace("\n", "<br>");
+                replyContent = filter.CensorString(replyContent);
+                string replyDate = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                bool replyStatus = true;
+
+                //To be modified
+                string userID = Session["UserID"].ToString();
+
+                if (!String.IsNullOrEmpty(reply))
                 {
-                    string content = Session["UserID"].ToString() + " has replied to your comment.";
-
-                    SqlCommand insertNotification = new SqlCommand("INSERT INTO Notification(userID, notificationContent, notificationDate, ownerUserID, postID) VALUES (@UserID, @Content, @ContentDate , @OwnerUserID, @PostID)", con);
-
-                    insertNotification.Parameters.AddWithValue("@UserID", Session["UserID"].ToString());
-                    insertNotification.Parameters.AddWithValue("@Content", content);
-                    insertNotification.Parameters.AddWithValue("@ContentDate", replyDate);
-                    insertNotification.Parameters.AddWithValue("@OwnerUserID", userCommentID);
-                    insertNotification.Parameters.AddWithValue("@PostID", postID);
+                    SqlCommand cmd = new SqlCommand("INSERT INTO DiscussionReply(replyID, replyContent, replyDate, commentID, userID, replyStatus) VALUES (@replyID, @replyContent, @replyDate, @commentID, @userID, @replyStatus)", con);
+                    cmd.Parameters.AddWithValue("@replyID", replyID);
+                    cmd.Parameters.AddWithValue("@replyContent", replyContent);
+                    cmd.Parameters.AddWithValue("@replyDate", replyDate);
+                    cmd.Parameters.AddWithValue("@commentID", comment);
+                    cmd.Parameters.AddWithValue("@userID", userID);
+                    cmd.Parameters.AddWithValue("@replyStatus", replyStatus);
                     con.Open();
-                    insertNotification.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
                     con.Close();
-                }
 
-                Response.Redirect(Request.RawUrl);
+                    con.Open();
+                    SqlCommand selectCommentID = new SqlCommand("SELECT userID FROM DiscussionComment WHERE commentID='" + comment + "'", con);
+                    string userCommentID = selectCommentID.ExecuteScalar().ToString();
+                    con.Close();
+
+
+
+                    if (userCommentID != Session["UserID"].ToString())
+                    {
+                        string content = Session["UserID"].ToString() + " has replied to your comment.";
+
+                        SqlCommand insertNotification = new SqlCommand("INSERT INTO Notification(userID, notificationContent, notificationDate, ownerUserID, postID) VALUES (@UserID, @Content, @ContentDate , @OwnerUserID, @PostID)", con);
+
+                        insertNotification.Parameters.AddWithValue("@UserID", Session["UserID"].ToString());
+                        insertNotification.Parameters.AddWithValue("@Content", content);
+                        insertNotification.Parameters.AddWithValue("@ContentDate", replyDate);
+                        insertNotification.Parameters.AddWithValue("@OwnerUserID", userCommentID);
+                        insertNotification.Parameters.AddWithValue("@PostID", postID);
+                        con.Open();
+                        insertNotification.ExecuteNonQuery();
+                        con.Close();
+                    }
+
+                    Response.Redirect(Request.RawUrl);
+                }
+                else
+                {
+                    Response.Write("<script>alert('Reply cannot be empty : " + comment + "')</script>");
+                }
             }
             else
             {
-                Response.Write("<script>alert('Reply cannot be empty : " + comment + "')</script>");
+                Response.Redirect("loginerror.aspx");
             }
         }
 
         protected void react_like_btn_Command(object sender, CommandEventArgs e)
         {
-            bool likeInsert, likeStatus;
-
-            SqlCommand select = new SqlCommand("SELECT likeStatus FROM DiscussionLike WHERE postID='" + postID + "'" + "AND userID='" + userID + "'", con);
-            con.Open();
-            object obj = select.ExecuteScalar();
-
-            if (obj != null && DBNull.Value != obj)
+            if (Session["UserID"] != null)
             {
-                likeStatus = (bool)select.ExecuteScalar();
-                likeInsert = false;
-            }
-            else
-            {
-                likeStatus = true;
-                likeInsert = true;
-            }
-            con.Close();
+                bool likeInsert, likeStatus;
 
-            if (likeInsert)
-            {
-                GenerateLikeID();
-
-                int currentLike = Int32.Parse(postLike_lbl.Text);
-                string likeDate = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-
-                SqlCommand insert = new SqlCommand("INSERT INTO DiscussionLike(likeID, likeStatus, likeDate, postID, userID) VALUES (@likeID, @likeStatus, @likeDate, @postID, @userID)", con);
-                insert.Parameters.AddWithValue("@likeID", likeID);
-                insert.Parameters.AddWithValue("@likeStatus", likeStatus);
-                insert.Parameters.AddWithValue("@likeDate", likeDate);
-                insert.Parameters.AddWithValue("@postID", postID);
-                insert.Parameters.AddWithValue("@userID", userID);
+                SqlCommand select = new SqlCommand("SELECT likeStatus FROM DiscussionLike WHERE postID='" + postID + "'" + "AND userID='" + userID + "'", con);
                 con.Open();
-                insert.ExecuteNonQuery();
-                con.Close();
+                object obj = select.ExecuteScalar();
 
-                if (userID_lbl.Text != Session["UserID"].ToString())
+                if (obj != null && DBNull.Value != obj)
                 {
-                    string content = Session["UserID"].ToString() + " has liked your post.";
-
-                    SqlCommand insertNotification = new SqlCommand("INSERT INTO Notification(userID, notificationContent, notificationDate, ownerUserID, postID) VALUES (@UserID, @Content, @ContentDate , @OwnerUserID, @PostID)", con);
-
-                    insertNotification.Parameters.AddWithValue("@UserID", Session["UserID"].ToString());
-                    insertNotification.Parameters.AddWithValue("@Content", content);
-                    insertNotification.Parameters.AddWithValue("@ContentDate", likeDate);
-                    insertNotification.Parameters.AddWithValue("@OwnerUserID", userID_lbl.Text);
-                    insertNotification.Parameters.AddWithValue("@PostID", postID);
-                    con.Open();
-                    insertNotification.ExecuteNonQuery();
-                    con.Close();
+                    likeStatus = (bool)select.ExecuteScalar();
+                    likeInsert = false;
                 }
+                else
+                {
+                    likeStatus = true;
+                    likeInsert = true;
+                }
+                con.Close();
+
+                if (likeInsert)
+                {
+                    GenerateLikeID();
+
+                    int currentLike = Int32.Parse(postLike_lbl.Text);
+                    string likeDate = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+
+                    SqlCommand insert = new SqlCommand("INSERT INTO DiscussionLike(likeID, likeStatus, likeDate, postID, userID) VALUES (@likeID, @likeStatus, @likeDate, @postID, @userID)", con);
+                    insert.Parameters.AddWithValue("@likeID", likeID);
+                    insert.Parameters.AddWithValue("@likeStatus", likeStatus);
+                    insert.Parameters.AddWithValue("@likeDate", likeDate);
+                    insert.Parameters.AddWithValue("@postID", postID);
+                    insert.Parameters.AddWithValue("@userID", userID);
+                    con.Open();
+                    insert.ExecuteNonQuery();
+                    con.Close();
+
+                    if (userID_lbl.Text != Session["UserID"].ToString())
+                    {
+                        string content = Session["UserID"].ToString() + " has liked your post.";
+
+                        SqlCommand insertNotification = new SqlCommand("INSERT INTO Notification(userID, notificationContent, notificationDate, ownerUserID, postID) VALUES (@UserID, @Content, @ContentDate , @OwnerUserID, @PostID)", con);
+
+                        insertNotification.Parameters.AddWithValue("@UserID", Session["UserID"].ToString());
+                        insertNotification.Parameters.AddWithValue("@Content", content);
+                        insertNotification.Parameters.AddWithValue("@ContentDate", likeDate);
+                        insertNotification.Parameters.AddWithValue("@OwnerUserID", userID_lbl.Text);
+                        insertNotification.Parameters.AddWithValue("@PostID", postID);
+                        con.Open();
+                        insertNotification.ExecuteNonQuery();
+                        con.Close();
+                    }
 
 
 
-                react_like_btn.ForeColor = System.Drawing.ColorTranslator.FromHtml(hex);
+                    react_like_btn.ForeColor = System.Drawing.ColorTranslator.FromHtml(hex);
 
-                //Response.Write("<script>alert('Liked')</script>");
+                    //Response.Write("<script>alert('Liked')</script>");
 
-                Response.Redirect(Request.RawUrl);
+                    Response.Redirect(Request.RawUrl);
+                }
+                else
+                {
+                    likeStatus = !likeStatus;
+                    string likeDate = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+
+                    SqlCommand update = new SqlCommand("UPDATE DiscussionLike SET likeDate='" + likeDate + "', likeStatus='" + likeStatus + "' WHERE postID='" + postID + "'" + "AND userID='" + userID + "'", con);
+                    con.Open();
+                    update.ExecuteNonQuery();
+                    con.Close();
+
+                    Response.Redirect(Request.RawUrl);
+                }
             }
             else
             {
-                likeStatus = !likeStatus;
-                string likeDate = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-
-                SqlCommand update = new SqlCommand("UPDATE DiscussionLike SET likeDate='" + likeDate + "', likeStatus='" + likeStatus + "' WHERE postID='" + postID + "'" + "AND userID='" + userID + "'", con);
-                con.Open();
-                update.ExecuteNonQuery();
-                con.Close();
-
-                Response.Redirect(Request.RawUrl);
+                Response.Redirect("loginerror.aspx");
             }
-
-
         }
 
         protected void react_comment_btn_Command(object sender, CommandEventArgs e)
@@ -875,92 +906,106 @@ namespace BACS3003_SEM.forum
 
         protected void react_bookmark_btn_Command(object sender, CommandEventArgs e)
         {
-            bool bookmarkInsert, bookmarkStatus;
-
-            SqlCommand select = new SqlCommand("SELECT bookmarkStatus FROM Bookmark WHERE postID='" + postID + "'" + "AND userID='" + userID + "'", con);
-            con.Open();
-            object obj = select.ExecuteScalar();
-
-            if (obj != null && DBNull.Value != obj)
+            if (Session["UserID"] != null)
             {
-                bookmarkStatus = (bool)select.ExecuteScalar();
-                bookmarkInsert = false;
+                bool bookmarkInsert, bookmarkStatus;
+
+                SqlCommand select = new SqlCommand("SELECT bookmarkStatus FROM Bookmark WHERE postID='" + postID + "'" + "AND userID='" + userID + "'", con);
+                con.Open();
+                object obj = select.ExecuteScalar();
+
+                if (obj != null && DBNull.Value != obj)
+                {
+                    bookmarkStatus = (bool)select.ExecuteScalar();
+                    bookmarkInsert = false;
+                }
+                else
+                {
+                    bookmarkStatus = true;
+                    bookmarkInsert = true;
+                }
+                con.Close();
+
+                if (bookmarkInsert)
+                {
+                    GenerateBookmarkID();
+
+                    string bookmarkDate = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+
+                    SqlCommand insert = new SqlCommand("INSERT INTO Bookmark(bookmarkID, bookmarkDate, postID, userID, bookmarkStatus) VALUES (@bookmarkID, @bookmarkDate, @postID, @userID, @bookmarkStatus)", con);
+                    insert.Parameters.AddWithValue("@bookmarkID", bookmarkID);
+                    insert.Parameters.AddWithValue("@bookmarkDate", bookmarkDate);
+                    insert.Parameters.AddWithValue("@postID", postID);
+                    insert.Parameters.AddWithValue("@userID", userID);
+                    insert.Parameters.AddWithValue("@bookmarkStatus", bookmarkStatus);
+                    con.Open();
+                    insert.ExecuteNonQuery();
+                    con.Close();
+
+                    react_like_btn.ForeColor = System.Drawing.ColorTranslator.FromHtml(hex);
+
+                    Response.Redirect(Request.RawUrl);
+                }
+                else
+                {
+                    bookmarkStatus = !bookmarkStatus;
+                    string bookmarkDate = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+
+                    SqlCommand update = new SqlCommand("UPDATE Bookmark SET bookmarkDate='" + bookmarkDate + "', bookmarkStatus='" + bookmarkStatus + "' WHERE postID='" + postID + "'" + "AND userID='" + userID + "'", con);
+                    con.Open();
+                    update.ExecuteNonQuery();
+                    con.Close();
+
+                    Response.Redirect(Request.RawUrl);
+                }
             }
             else
             {
-                bookmarkStatus = true;
-                bookmarkInsert = true;
-            }
-            con.Close();
-
-            if (bookmarkInsert)
-            {
-                GenerateBookmarkID();
-
-                string bookmarkDate = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-
-                SqlCommand insert = new SqlCommand("INSERT INTO Bookmark(bookmarkID, bookmarkDate, postID, userID, bookmarkStatus) VALUES (@bookmarkID, @bookmarkDate, @postID, @userID, @bookmarkStatus)", con);
-                insert.Parameters.AddWithValue("@bookmarkID", bookmarkID);
-                insert.Parameters.AddWithValue("@bookmarkDate", bookmarkDate);
-                insert.Parameters.AddWithValue("@postID", postID);
-                insert.Parameters.AddWithValue("@userID", userID);
-                insert.Parameters.AddWithValue("@bookmarkStatus", bookmarkStatus);
-                con.Open();
-                insert.ExecuteNonQuery();
-                con.Close();
-
-                react_like_btn.ForeColor = System.Drawing.ColorTranslator.FromHtml(hex);
-
-                Response.Redirect(Request.RawUrl);
-            }
-            else
-            {
-                bookmarkStatus = !bookmarkStatus;
-                string bookmarkDate = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-
-                SqlCommand update = new SqlCommand("UPDATE Bookmark SET bookmarkDate='" + bookmarkDate + "', bookmarkStatus='" + bookmarkStatus + "' WHERE postID='" + postID + "'" + "AND userID='" + userID + "'", con);
-                con.Open();
-                update.ExecuteNonQuery();
-                con.Close();
-
-                Response.Redirect(Request.RawUrl);
+                Response.Redirect("loginerror.aspx");
             }
         }
 
         protected void react_view_btn_Command(object sender, CommandEventArgs e)
         {
-            view_panel.Visible = true;
+            if (Session["UserID"] != null)
+            {
+                view_panel.Visible = true;
 
-            int numPeopleView, totalNumView, personalView;
-            double AvgNumView;
-            DateTime personalViewDate, todayDate = System.DateTime.Now;
+                int numPeopleView, totalNumView, personalView;
+                double AvgNumView;
+                DateTime personalViewDate, todayDate = System.DateTime.Now;
 
-            con.Open();
-            SqlCommand cmd = new SqlCommand("SELECT COUNT(viewID) FROM DiscussionView WHERE postID='" + postID + "'", con);
-            SqlCommand cmd2 = new SqlCommand("SELECT SUM(viewCount) FROM DiscussionView WHERE postID='" + postID + "'", con);
-            SqlCommand cmd3 = new SqlCommand("SELECT viewCount FROM DiscussionView WHERE postID='" + postID + "' AND userID='" + userID + "'", con);
-            SqlCommand cmd4 = new SqlCommand("SELECT viewDate FROM DiscussionView WHERE postID='" + postID + "' AND userID='" + userID + "'", con);
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT COUNT(viewID) FROM DiscussionView WHERE postID='" + postID + "'", con);
+                SqlCommand cmd2 = new SqlCommand("SELECT SUM(viewCount) FROM DiscussionView WHERE postID='" + postID + "'", con);
+                SqlCommand cmd3 = new SqlCommand("SELECT viewCount FROM DiscussionView WHERE postID='" + postID + "' AND userID='" + userID + "'", con);
+                SqlCommand cmd4 = new SqlCommand("SELECT viewDate FROM DiscussionView WHERE postID='" + postID + "' AND userID='" + userID + "'", con);
 
-            numPeopleView = (int)cmd.ExecuteScalar();
-            totalNumView = (int)cmd2.ExecuteScalar();
-            AvgNumView = (totalNumView / numPeopleView);
+                numPeopleView = (int)cmd.ExecuteScalar();
+                totalNumView = (int)cmd2.ExecuteScalar();
+                AvgNumView = (totalNumView / numPeopleView);
 
-            personalView = (int)cmd3.ExecuteScalar();
-            personalViewDate = Convert.ToDateTime(cmd4.ExecuteScalar());
+                personalView = (int)cmd3.ExecuteScalar();
+                personalViewDate = Convert.ToDateTime(cmd4.ExecuteScalar());
 
-            con.Close();
+                con.Close();
 
-            count_lbl_1.Text = numPeopleView.ToString();
-            count_lbl_2.Text = totalNumView.ToString();
-            count_lbl_3.Text = AvgNumView.ToString();
+                count_lbl_1.Text = numPeopleView.ToString();
+                count_lbl_2.Text = totalNumView.ToString();
+                count_lbl_3.Text = AvgNumView.ToString();
 
-            count_lbl_11.Text = personalView.ToString();
-            count_lbl_22.Text = personalViewDate.ToString("dd/MM/yy");
-            count_lbl_33.Text = (todayDate - personalViewDate).Days.ToString() + "&nbsp;Day(s)";
+                count_lbl_11.Text = personalView.ToString();
+                count_lbl_22.Text = personalViewDate.ToString("dd/MM/yy");
+                count_lbl_33.Text = (todayDate - personalViewDate).Days.ToString() + "&nbsp;Day(s)";
 
-            count_up_panel.Visible = false;
-            count_down_panel.Visible = false;
-            count_equal_panel.Visible = false;
+                count_up_panel.Visible = false;
+                count_down_panel.Visible = false;
+                count_equal_panel.Visible = false;
+            }
+            else
+            {
+                Response.Redirect("loginerror.aspx");
+            }
         }
     }
 }

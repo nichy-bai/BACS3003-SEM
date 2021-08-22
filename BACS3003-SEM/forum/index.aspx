@@ -199,7 +199,7 @@
         <div class="px-0 flex flex-row flex-grow">
             <div class="flex flex-col justify-center">
                 <span class="block text-4xl font-bold mb-2 font-title text-gray-700">Badcaps Forums</span>
-                <span class="block text-gray-600">Recent discussions from the community</span>
+                <span class="block text-gray-600">Recent topics from the community</span>
             </div>
         </div>
         <div class="flex flex-row items-center ml-4">

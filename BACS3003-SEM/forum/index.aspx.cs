@@ -248,16 +248,8 @@ namespace BACS3003_SEM.forum
 
         protected void postBody_btn_Command(object sender, CommandEventArgs e)
         {
-            if (Session["UserID"] != null)
-            {
-                string postID = e.CommandArgument.ToString();
-                Response.Redirect("showthread.aspx?p=" + postID.Substring(2, postID.Length - 2));
-            }
-            else
-            {
-                Response.Redirect("loginerror.aspx");
-                //ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('You must log in as a customer to access this feature.');window.location ='../User/UserLogin.aspx';", true);
-            }
+            string postID = e.CommandArgument.ToString();
+            Response.Redirect("showthread.aspx?p=" + postID.Substring(2, postID.Length - 2));
         }
 
         protected void react_like_btn_Command(object sender, CommandEventArgs e)

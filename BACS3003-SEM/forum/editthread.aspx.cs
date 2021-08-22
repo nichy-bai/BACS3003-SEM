@@ -51,7 +51,7 @@ namespace BACS3003_SEM.forum
                     {
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "redirect",
                             "alert('Error! Invalid post!'); window.location='" +
-                            Request.ApplicationPath + "../WebForms/Discussion/Homepage.aspx';", true);
+                            Request.ApplicationPath + "../forum/index.aspx';", true);
                     }
                     con.Close();
 
@@ -107,24 +107,24 @@ namespace BACS3003_SEM.forum
                         {
                             ScriptManager.RegisterStartupScript(this, this.GetType(), "redirect",
                             "alert('Error! Invalid user!'); window.location='" +
-                            Request.ApplicationPath + "../WebForms/Discussion/Homepage.aspx';", true);
+                            Request.ApplicationPath + "../forum/index.aspx';", true);
                         }
                     }
                     else
                     {
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "redirect",
-                        "alert('Error! Invalid post!'); window.location='" +
-                        Request.ApplicationPath + "../WebForms/Discussion/Homepage.aspx';", true);
+                            "alert('Error! Invalid post!'); window.location='" +
+                            Request.ApplicationPath + "../forum/index.aspx';", true);
                     }
                 }
                 else
                 {
-                    Response.Redirect("/WebForms/Error.aspx");
+                    Response.Redirect("error.aspx");
                 }
             }
             else
             {
-                Response.Redirect("/WebForms/LoginError.aspx");
+                Response.Redirect("loginerror.aspx");
             }
         }
 
@@ -151,7 +151,7 @@ namespace BACS3003_SEM.forum
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            Response.Redirect("../Discussion/DiscussionPost.aspx?p=" + postID.Substring(2, postID.Length - 2));
+            Response.Redirect("showthread.aspx?p=" + postID.Substring(2, postID.Length - 2));
         }
 
         protected void Button2_Click(object sender, EventArgs e)
@@ -200,7 +200,7 @@ namespace BACS3003_SEM.forum
 
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "redirect",
                 "alert('Successfully updated!'); window.location='" +
-                Request.ApplicationPath + "../WebForms/Discussion/DiscussionPost.aspx?p=" + postID.Substring(2, postID.Length - 2) + "';", true);
+                Request.ApplicationPath + "../forum/showthread.aspx?p=" + postID.Substring(2, postID.Length - 2) + "';", true);
             }
             else
             {
