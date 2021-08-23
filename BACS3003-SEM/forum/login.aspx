@@ -71,14 +71,14 @@
                                    <div class="absolute"><asp:RequiredFieldValidator ID="rfvPassword" runat="server" ErrorMessage="Password is required." ControlToValidate="txtPassword" ForeColor="Red" ValidationGroup="LoginValidation"></asp:RequiredFieldValidator></div>
                                 </div>
 
-                                <%--<div id="dvCaptcha" class="reset-single1"></div>
+                                <div id="dvCaptcha" class="reset-single1 flex justify-center"></div>
                                 <asp:TextBox ID="txtCaptcha" runat="server" Style="display: none" />
-                                <asp:RequiredFieldValidator ID="rfvCaptcha" ErrorMessage="Captcha validation is required." ValidationGroup="resetpass" ControlToValidate="txtCaptcha" runat="server" ForeColor="Red" Display="Dynamic" Text="*"/>--%>
+                                <asp:RequiredFieldValidator ID="rfvCaptcha" ErrorMessage="Captcha validation is required." ValidationGroup="LoginValidation" ControlToValidate="txtCaptcha" runat="server" ForeColor="Red" Display="Dynamic"/>
 
                                 <div class="mb-4 relative">
                                     <asp:LinkButton ID="btnForgotPassword" runat="server" CssClass="hover:underline text-sm" OnClick="btnForgotPassword_Click" Text="Forgot Password?"></asp:LinkButton>
                                 </div>
-                                <asp:Button ID="btnLogin" runat="server" Text="Login" CssClass="cursor-pointer mt-3 text-lg font-semibold bg-green-500 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-green-400" OnClick="btnLogin_Click" ValidationGroup="LoginValidation" />
+                                <asp:Button ID="btnLogin" runat="server" Text="Login" CssClass="cursor-pointer mt-3 text-lg font-semibold bg-green-500 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-green-400" OnClick="btnLogin_Click"  ValidationGroup="LoginValidation" />
                             </div>
                             <div class="flex justify-center border-t border-gray-400 mt-4 pt-2 text-white">
                                 New to Badcaps.net Forums?<span><a href="register.aspx" style="text-decoration: none" class="ml-1 text-green-500 font-bold hover:text-green-400 transition ease-in-out duration-300">Sign Up</a></span>

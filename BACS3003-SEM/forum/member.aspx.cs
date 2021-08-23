@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -91,7 +92,10 @@ namespace BACS3003_SEM.forum
                 Response.Redirect("/WebForms/LoginError.aspx");
                 //ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('You must log in as a customer to access this feature.');window.location ='../User/UserLogin.aspx';", true);
             }
-            MultiViewProfile.ActiveViewIndex = 0;
+            if (!IsPostBack)
+            {
+                MultiViewProfile.ActiveViewIndex = 0;
+            }
         }
 
         protected void post_btn_Command(object sender, CommandEventArgs e)
@@ -112,7 +116,7 @@ namespace BACS3003_SEM.forum
                 cmd.Parameters.AddWithValue("@currUserID", Session["UserID"].ToString());
                 con.Open();
                 rdr = cmd.ExecuteReader();
-
+                
                 while (rdr.Read())
                 {
                     object date = rdr["DOB"];
@@ -132,6 +136,7 @@ namespace BACS3003_SEM.forum
                     txtEmail.Text = rdr["emailAddress"].ToString();
                     txtProfileDesc.Text = rdr["profileDesc"].ToString();
                 }
+                con.Close();
             }
         }
 
@@ -232,6 +237,55 @@ namespace BACS3003_SEM.forum
         {
             Session.Abandon();
             ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('You have been successfully logged out!');window.location ='../forum/index.aspx';", true);
+        }
+
+        protected void btnChangePass_Click(object sender, EventArgs e)
+        {
+            
+            String getUser = "Select count(*) from [dbo].[User] where userID = @Username AND userPassword = @Password";
+            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\BadcapsDB.mdf;Integrated Security=True;Timeout=60");
+            SqlCommand cmdGetUser = new SqlCommand(getUser, con);
+            cmdGetUser.Parameters.AddWithValue("@Username", Session["UserID"]);
+            cmdGetUser.Parameters.AddWithValue("@Password", Encryptdata(txtOldPass.Text));
+            con.Open();
+            String output = cmdGetUser.ExecuteScalar().ToString();
+            con.Close();
+            if (output == "1")
+            {
+                String sql = "Update [dbo].[User] set userPassword = @newPassword where userID = @Username1";
+                SqlCommand cmd = new SqlCommand(sql, con);
+                cmd.Parameters.AddWithValue("@Username1", Session["UserID"]);
+                cmd.Parameters.AddWithValue("@newPassword", Encryptdata(txtNewPass.Text));
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+                //add success msg
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Password successfully changed!');window.location ='../forum/member.aspx';", true);
+            }
+            else
+            {
+                lblError.Text = "Current password not matched.";
+            }
+            
+        }
+
+        private string Encryptdata(string password)
+        {
+            string strmsg = string.Empty;
+            byte[] encode = new byte[password.Length];
+            encode = Encoding.UTF8.GetBytes(password);
+            strmsg = Convert.ToBase64String(encode);
+            return strmsg;
+        }
+
+        protected void editPassBtn_Click(object sender, EventArgs e)
+        {
+            MultiViewProfile.ActiveViewIndex = 2;
+        }
+
+        protected void btnCancelPass_Click(object sender, EventArgs e)
+        {
+            MultiViewProfile.ActiveViewIndex = 1;
         }
     }
 }

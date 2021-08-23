@@ -73,5 +73,15 @@ namespace BACS3003_SEM.forum
                 }
             }
         }
+
+        protected void rules_btn_Click(object sender, EventArgs e)
+        {
+            rules_panel.Visible = true;
+        }
+
+        protected void btnClose_Click(object sender, EventArgs e)
+        {
+            rules_panel.Visible = false;
+        }
     }
 }
