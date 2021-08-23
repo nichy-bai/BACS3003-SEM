@@ -195,58 +195,57 @@
     </asp:Panel>
 
     <header
-        class="m-5 mt-0 px-5 py-4 bg-white rounded-md flex flex-row shadow-md h-auto transition ease-in-out duration-1000 border-solid border-b-4 border-r-4 border-gray-400">
-        <div class="px-0 flex flex-row flex-grow">
-            <div class="flex flex-col justify-center">
-                <span class="block text-4xl font-bold mb-2 font-title text-gray-700">Badcaps Forums</span>
-                <span class="block text-gray-600">Recent topics from the community</span>
+        class="m-5 mt-0 px-5 py-4 bg-white rounded-md flex flex-col shadow-md h-auto transition ease-in-out duration-1000 border-solid border-b-4 border-r-4 border-gray-400">
+        <div class="flex flex-row">
+            <div class="px-0 flex flex-row flex-grow">
+                <div class="flex flex-col justify-center">
+                    <span class="block text-4xl font-bold mb-2 font-title text-gray-700">Badcaps Forums</span>
+                    <span class="block text-gray-600">Recent threads from the community</span>
+                </div>
+            </div>
+            <div class="flex flex-row items-center ml-4">
+                <asp:LinkButton ID="personalize_btn" runat="server" ToolTip="Customize content, layout, and font to your liking" CssClass="w-auto flex flex-row justify-center items-center p-3 bg-gray-700 rounded-lg text-gray-100 hover:shadow-md hover:bg-gray-600 ease-in-out duration-300" OnCommand="personalize_btn_Command" OnClientClick="window.document.forms[0].target='_self';">
+                    <svg
+                        class="w-8 h-8"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="1.5"
+                            d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
+                        </path>
+                    </svg>
+                    <span class="ml-2 hidden sm:inline font-title">Customize</span>
+                </asp:LinkButton>
             </div>
         </div>
-        <div class="flex flex-row items-center ml-4">
-            <asp:LinkButton ID="personalize_btn" runat="server" ToolTip="Customize content, topic and layout to your liking" CssClass="w-auto flex flex-row justify-center items-center p-3 bg-gray-700 rounded-lg text-gray-100 hover:shadow-md hover:bg-gray-600 ease-in-out duration-300" OnCommand="personalize_btn_Command" OnClientClick="window.document.forms[0].target='_self';">
-                <svg
-                    class="w-8 h-8"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.5"
-                        d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
-                    </path>
-                </svg>
-                <span class="ml-2 hidden sm:inline font-title">Personalize</span>
-            </asp:LinkButton>
+        <div>
+            <div title="Start a new thread" class="mt-5 py-0.5 bg-gray-200 hover:bg-gray-300 text-gray-600 hover:text-gray-700 w-full h-auto rounded-lg cursor-pointer transition ease-in-out duration-1000">
+                <a
+                    href="newthread.aspx"
+                    class="px-0 flex flex-row flex-grow items-center m-5 text-lg h-auto">
+                    <svg
+                        class="w-8 h-8 mr-3"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="1.5"
+                            d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z">
+                        </path>
+                    </svg>
+                    <span>New Thread</span>
+                    <span class="tracking-wider">...</span>
+                </a>
+            </div>
         </div>
     </header>
-
-    <%--Create discussion post--%>
-    <div
-        class="mt-0 m-5 px-5 py-4 bg-white rounded-md flex flex-row shadow-md h-auto dark-theme border-solid border-b-4 border-r-4 border-gray-400">
-        <div title="Start an asynchronous discussion" class="bg-gray-200 hover:bg-gray-300 text-gray-600 hover:text-gray-700 w-full h-auto rounded-lg cursor-pointer transition ease-in-out duration-1000">
-            <a
-                href="newthread.aspx"
-                class="px-0 flex flex-row flex-grow items-center m-5 text-lg h-auto">
-                <svg
-                    class="w-8 h-8 mr-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.5"
-                        d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z">
-                    </path>
-                </svg>
-                <span>New Thread</span>
-                <span class="tracking-wider">...</span>
-            </a>
-        </div>
-    </div>
 
     <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT Post.postID, Post.postTitle, Post.postContent, Post.postDate, Post.postStatus, Post.editDate, Tag.tagID, Tag.tagName, Tag.tagDesc, Topic.topicID, Topic.topicName, Topic.topicDesc, [User].userID, [User].name, [User].profilePicture, (SELECT COUNT(*) AS Expr1 FROM DiscussionLike WHERE (postID = Post.postID) AND (likeStatus = 1)) AS totalLike, (SELECT COUNT(*) AS Expr1 FROM DiscussionComment WHERE (postID = Post.postID)) AS totalComment, (SELECT COUNT(*) AS Expr1 FROM Bookmark WHERE (postID = Post.postID) AND (bookmarkStatus = 1)) AS totalBookmark, (SELECT COUNT(*) AS Expr1 FROM DiscussionView WHERE (postID = Post.postID)) AS totalView FROM Post INNER JOIN Tag ON Post.tagID = Tag.tagID INNER JOIN Topic ON Post.topicID = Topic.topicID INNER JOIN [User] ON Post.userID = [User].userID WHERE (Post.postStatus = 1) ORDER BY Post.postDate DESC"></asp:SqlDataSource>
 

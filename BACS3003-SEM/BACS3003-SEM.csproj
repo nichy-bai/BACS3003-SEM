@@ -87,6 +87,7 @@
     <Content Include="forum\showthread.aspx" />
     <Content Include="forum\register.aspx" />
     <Content Include="forum\member.aspx" />
+    <Content Include="forum\subscribed.aspx" />
     <Content Include="Illustrations\loginerror.svg" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -160,6 +161,13 @@
     </Compile>
     <Compile Include="forum\member.aspx.designer.cs">
       <DependentUpon>member.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="forum\subscribed.aspx.cs">
+      <DependentUpon>subscribed.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="forum\subscribed.aspx.designer.cs">
+      <DependentUpon>subscribed.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

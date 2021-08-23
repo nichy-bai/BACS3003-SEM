@@ -291,7 +291,7 @@
             </div>
             <%--Bookmark--%>
             <div class="mr-4 mt-4">
-                <asp:LinkButton ID="react_bookmark_btn" runat="server" ToolTip="Bookmark" CssClass="flex flex-row justify-start items-center hover:bg-gray-100 px-2 py-1 rounded-lg transition ease-in-out duration-300" OnCommand="react_bookmark_btn_Command">
+                <asp:LinkButton ID="react_bookmark_btn" runat="server" ToolTip="Subscribe" CssClass="flex flex-row justify-start items-center hover:bg-gray-100 px-2 py-1 rounded-lg transition ease-in-out duration-300" OnCommand="react_bookmark_btn_Command">
                     <svg
                         runat="server"
                         class="w-6 h-6"
