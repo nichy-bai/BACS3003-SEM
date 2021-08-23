@@ -117,7 +117,7 @@ namespace BACS3003_SEM.forum
                     if (bookmarkStatus)
                     {
                         react_bookmark_btn.ForeColor = System.Drawing.ColorTranslator.FromHtml(hex);
-                        react_bookmark_btn.ToolTip = "Unbookmark";
+                        react_bookmark_btn.ToolTip = "Unsubscribe";
                     }
 
                     object obj3 = cmd9.ExecuteScalar();

@@ -30,14 +30,17 @@
             </div>
             <div class="menu w-full lg:block flex-grow lg:flex lg:items-center lg:w-auto lg:px-3 px-8">
                 <div class="text-md font-bold text-gray-600 lg:flex-grow">
-                    <a href="#responsive-header"
+                    <a href=""
                         class="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2 transition ease-in-out duration-300">FAQ
                     </a>
-                    <a href="#responsive-header"
+                    <a href=""
                         class=" block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2 transition ease-in-out duration-300">Calendar
                     </a>
-                    <a href="#responsive-header"
+                    <a href=""
                         class="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2 transition ease-in-out duration-300">Today's Posts
+                    </a>
+                    <a href="subscribed.aspx"
+                        class="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2 transition ease-in-out duration-300">Subscribed
                     </a>
                 </div>
 
@@ -56,20 +59,20 @@
                         </svg>
                     </button>
                 </div>
-                <div class="text-md font-bold text-gray-600 flex flex-row justify-between flex-grow lg:flex-grow-0">
+                <div class="text-md font-bold text-gray-600 flex flex-col lg:flex-row justify-start lg:justify-between flex-grow lg:flex-grow-0">
                     <div>
-                        <asp:LinkButton ID="linkBtnRegister" runat="server" ToolTip="Register" OnClick="linkBtnRegister_Click" CssClass="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2 transition ease-in-out duration-300">Register
+                        <asp:LinkButton ID="linkBtnRegister" runat="server" OnClick="linkBtnRegister_Click" CssClass="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2 transition ease-in-out duration-300">Register
                         </asp:LinkButton>
                         <%--<asp:Panel ID="nav_profile_btn" runat="server" CssClass="rounded-full border-4 border-transparent hidden md:flex">--%>
-                            <a href="../forum/member.aspx" id="profile" title="Profile">
-                                <asp:Image ID="post_user_img" runat="server" ImageUrl="~/ProfileImages/Default.png" CssClass="w-10 h-10 rounded-full" />
+                            <a href="../forum/member.aspx" id="profile" title="My Profile">
+                                <asp:Image ID="post_user_img" runat="server" ImageUrl="~/ProfileImages/Default.png" CssClass="w-10 h-10 rounded-full mx-4 border-transparent border-2 hover:border-gray-600 transition ease-in-out duration-300" />
                             </a>
                         <%--</asp:Panel>--%>
                     </div>
                     <div>
-                        <asp:LinkButton ID="linkBtnLogin" runat="server" ToolTip="Login" OnClick="linkBtnLogin_Click" CssClass="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2 transition ease-in-out duration-300">Login
+                        <asp:LinkButton ID="linkBtnLogin" runat="server" OnClick="linkBtnLogin_Click" CssClass="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2 transition ease-in-out duration-300">Login
                         </asp:LinkButton>
-                        <asp:LinkButton ID="linkBtnLogout" runat="server" ToolTip="Log Out" OnClick="linkBtnLogout_Click" CssClass="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2 transition ease-in-out duration-300">Log Out
+                        <asp:LinkButton ID="linkBtnLogout" runat="server" OnClick="linkBtnLogout_Click" CssClass="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded-md hover:bg-red-600 mr-2 transition ease-in-out duration-300">Logout
                         </asp:LinkButton>
                     </div>
                 </div>
@@ -110,7 +113,7 @@
                                         d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z">
                                     </path>
                                 </svg>
-                                <span class="ml-4 font-title text-gray-800 transition ease-in-out duration-1000">Featured Discussions</span>
+                                <span class="ml-4 font-title text-gray-800 transition ease-in-out duration-1000">Featured Threads</span>
                             </div>
                             <div class="flex flex-col h-72 w-full overflow-auto">
                                 <asp:Repeater ID="Repeater1" runat="server" DataSourceID="SqlDataSource1">
@@ -126,41 +129,6 @@
                                     </ItemTemplate>
                                 </asp:Repeater>
                                 <asp:SqlDataSource runat="server" ID="SqlDataSource1" ConnectionString='<%$ ConnectionStrings:ConnectionString %>' SelectCommand="SELECT TOP(10) Post.postID, Post.postTitle, Post.postContent, Post.postDate, Post.postStatus, Post.editDate, Tag.tagID, Tag.tagName, Tag.tagDesc, Topic.topicID, Topic.topicName, Topic.topicDesc, [User].userID, [User].name, [User].profilePicture, (SELECT COUNT(*) AS Expr1 FROM DiscussionLike WHERE (postID = Post.postID) AND (likeStatus = 1)) AS totalLike, (SELECT COUNT(*) AS Expr1 FROM DiscussionComment WHERE (postID = Post.postID)) AS totalComment, (SELECT COUNT(*) AS Expr1 FROM Bookmark WHERE (postID = Post.postID) AND (bookmarkStatus = 1)) AS totalBookmark, (SELECT COUNT(*) AS Expr1 FROM DiscussionView WHERE (postID = Post.postID)) AS totalView FROM Post INNER JOIN Tag ON Post.tagID = Tag.tagID INNER JOIN Topic ON Post.topicID = Topic.topicID INNER JOIN [User] ON Post.userID = [User].userID WHERE (Post.postStatus = 1) ORDER BY totalLike DESC, totalComment DESC"></asp:SqlDataSource>
-                            </div>
-                        </div>
-                        <!--Featured topics-->
-                        <div
-                            class="m-5 ml-0 items-center justify-between bg-white w-96 h-auto px-5 py-4 rounded-md shadow-md transition ease-in-out duration-1000 border-solid border-b-4 border-r-4 border-gray-400">
-                            <div class="flex flex-row items-center text-lg font-semibold text-gray-800 hover:text-blue-600 mb-2 pb-2 border-b-2 border-gray-300 hover:border-blue-500 transition ease-in-out duration-300 cursor-default">
-                                <svg
-                                    class="w-8 h-8"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z">
-                                    </path>
-                                </svg>
-                                <span class="ml-4 font-title text-gray-800 transition ease-in-out duration-1000">Featured Topics</span>
-                            </div>
-                            <div class="flex flex-col h-56 w-full overflow-auto">
-                                <asp:Repeater ID="Repeater2" runat="server" DataSourceID="SqlDataSource2">
-                                    <ItemTemplate>
-                                        <asp:LinkButton ID="topic_btn_Command" runat="server" CssClass="" OnCommand="topic_btn_Command" CommandArgument='<%#Eval("topicID") %>'>
-                                        <div class="flex flex-row h-auto py-2 rounded-lg hover:bg-gray-200 text-gray-800 transition ease-in-out duration-300 mb-1 px-1 leading-5">
-                                            <div class="text-gray-500">#&nbsp;</div>
-                                                <div class="w-full">
-                                                    <%#Eval("topicName") %>
-                                                </div>
-                                            </div>
-                                        </asp:LinkButton>
-                                    </ItemTemplate>
-                                </asp:Repeater>
-                                <asp:SqlDataSource runat="server" ID="SqlDataSource2" ConnectionString='<%$ ConnectionStrings:ConnectionString %>' SelectCommand="SELECT TOP (10) Post.topicID, COUNT(*) AS totalTopic, Topic.topicName, Topic.topicDesc FROM Post INNER JOIN Topic ON Post.topicID = Topic.topicID GROUP BY Post.topicID, Topic.topicName, Topic.topicDesc ORDER BY totalTopic DESC"></asp:SqlDataSource>
                             </div>
                         </div>
                         <!--Product-->
@@ -184,7 +152,7 @@
                             </div>
                             <div class="flex flex-col h-auto w-full overflow-auto">
                                 <a
-                                    href="../Support/Changelog.aspx"
+                                    href=""
                                     class="flex flex-row h-auto py-2 rounded-md hover:bg-gray-200 text-gray-800 transition ease-in-out duration-300 items-center">
                                     <span class="pl-1 pr-5">
                                         <svg
@@ -205,7 +173,7 @@
                                     <span class="text-gray-500 transition ease-in-out duration-300">: See what's new</span>
                                 </a>
                                 <a
-                                    href="../Support/Feedback.aspx"
+                                    href=""
                                     class="flex flex-row h-auto py-2 rounded-md hover:bg-gray-200 text-gray-800 transition ease-in-out duration-300 items-center">
                                     <span class="pl-1 pr-5">
                                         <svg
@@ -230,12 +198,12 @@
                         <!--Footer-->
                         <footer class="pb-5 text-sm text-gray-200">
                             <div class="grid grid-cols-2 gap-x-4 gap-y-1 w-96">
-                                <a href="../Support/About.aspx" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">About</a>
-                                <a href="../Support/Support.aspx" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">Support</a>
-                                <a href="../Support/Media.aspx" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">Logo & Media</a>
-                                <a href="../Support/Privacy.aspx" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">Privacy</a>
-                                <a href="../Support/Terms.aspx" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">Terms of service</a>
-                                <a href="../Support/Disclaimer.aspx" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">Disclaimer</a>
+                                <a href="" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">About</a>
+                                <a href="" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">Support</a>
+                                <a href="" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">Donate</a>
+                                <a href="" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">Capacitor Kits</a>
+                                <a href="" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">Repair Services</a>
+                                <a href="" class="hover:bg-gray-700 rounded-md px-4 py-2 transition ease-in-out duration-300">Badcaps.net Store</a>
                             </div>
                             <div class="mt-5">
                                 <span class="px-4 font-medium font-title transition ease-in-out duration-300">Badcaps.net Technical Forums &#169; 2003 - 2021</span>
@@ -266,12 +234,12 @@
                         </div>
                         <footer class="text-md text-gray-700">
                             <div class="grid grid-cols-2 gap-x-4 gap-y-2 w-96">
-                                <a href="../Support/About.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">About</a>
-                                <a href="../Support/Support.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">Support</a>
-                                <a href="../Support/Media.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">Logo & Media</a>
-                                <a href="../Support/Privacy.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">Privacy</a>
-                                <a href="../Support/Terms.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">Terms of service</a>
-                                <a href="../Support/Disclaimer.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">Disclaimer</a>
+                                <a href="" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">About</a>
+                                <a href="" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">Support</a>
+                                <a href="" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">Logo & Media</a>
+                                <a href="" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">Privacy</a>
+                                <a href="" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">Terms of service</a>
+                                <a href="" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 hover:text-gray-900">Disclaimer</a>
                             </div>
                         </footer>
                     </div>
@@ -282,7 +250,7 @@
                 <div
                     class="md:hidden mt-0 m-5 p-10 bg-white rounded-md flex flex-row flex-wrap justify-between items-center shadow-md h-auto transition ease-in-out duration-1000">
                     <div class="flex flex-col items-start justify-items-start border-b-2 md:border-b-0 w-full md:w-auto mb-2 md:mb-0">
-                        <a href="../Discussion/Homepage.aspx" class="text-2xl font-bold mb-2 font-title tracking-wide flex flex-row justify-center items-center text-gray-800">
+                        <a href="index.aspx" class="text-2xl font-bold mb-2 font-title tracking-wide flex flex-row justify-center items-center text-gray-800">
 
                             <span class="ml-3">Badcaps.net Forums</span>
                         </a>
@@ -295,18 +263,18 @@
                     </div>
                     <div class="border-b-2 md:border-b-0 w-full md:w-auto">
                         <div class="grid grid-cols-1 gap-x-4 gap-y-1 mb-2">
-                            <a href="../Support/Changelog.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Changelog</a>
-                            <a href="../Support/Feedback.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Feedback</a>
+                            <a href="" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Changelog</a>
+                            <a href="" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Feedback</a>
                         </div>
                     </div>
                     <div>
                         <div class="grid grid-cols-1 gap-x-4 gap-y-1 w-48 mt-2">
-                            <a href="../Support/About.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">About</a>
-                            <a href="../Support/Support.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Support</a>
-                            <a href="../Support/Media.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Logo & Media</a>
-                            <a href="../Support/Privacy.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Privacy</a>
-                            <a href="../Support/Terms.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Terms and Conditions</a>
-                            <a href="../Support/Disclaimer.aspx" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Disclaimer</a>
+                            <a href="" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">About</a>
+                            <a href="" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Support</a>
+                            <a href="" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Logo & Media</a>
+                            <a href="" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Privacy</a>
+                            <a href="" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Terms and Conditions</a>
+                            <a href="" class="hover:bg-gray-200 rounded-md px-4 py-2 transition ease-in-out duration-300 text-gray-700 hover:text-gray-900">Disclaimer</a>
                         </div>
                     </div>
                 </div>
