@@ -52,8 +52,9 @@
             <div class="max-w-sm mx-auto px-6">
                 <div class="relative flex flex-wrap">
                     <div class="w-full relative">
-                        <div class="md:mt-6">
-                            <div class="text-center text-4xl font-medium text-gray-100">
+                        <div class="md:mt-0">
+                            <div class="text-center font-black text-3xl tracking-tight uppercase"><a href="index.aspx">Badcaps.net Forum</a> </div>
+                            <div class="text-center text-3xl font-medium text-gray-100">
                                 Login
                             </div>
                             <div class="mx-auto max-w-lg ">

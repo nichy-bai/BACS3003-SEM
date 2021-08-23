@@ -143,6 +143,8 @@ namespace BACS3003_SEM.forum
             {
                 lblTime.Text = (seconds - 1).ToString();
                 btnGetCode.Enabled = false;
+                btnGetCode.CssClass = btnGetCode.CssClass.Replace("bg-green-500", "bg-green-300");
+                btnGetCode.CssClass = btnGetCode.CssClass.Replace("hover:bg-green-400", "hover:bg-green-300");
             }
             else
             {
@@ -151,6 +153,8 @@ namespace BACS3003_SEM.forum
                 lblWait.Visible = false;
                 lblSeconds.Visible = false;
                 lblTime.Visible = false;
+                btnGetCode.CssClass = btnGetCode.CssClass.Replace("bg-green-300", "bg-green-500");
+                btnGetCode.CssClass = btnGetCode.CssClass.Replace("hover:bg-green-300", "hover:bg-green-400");
             }
         }
     }

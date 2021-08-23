@@ -167,7 +167,8 @@
                             </div>
                         </asp:Panel>
                         <div class="md:mt-0">
-                            <div class="text-center text-4xl font-medium text-gray-100">
+                            <div class="text-center font-black text-3xl tracking-tight uppercase"><a href="index.aspx">Badcaps.net Forum</a> </div>
+                            <div class="text-center text-3xl font-medium text-gray-100">
                                 Sign Up
                             </div>
                             <div class="mx-auto max-w-lg ">
