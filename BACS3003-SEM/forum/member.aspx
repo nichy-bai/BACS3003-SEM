@@ -143,7 +143,7 @@
                         <div class="items-start w-40 min-w-full sm:min-w-0 mt-0 md:mt-2 mr-5">
                             <div class="flex flex-row justify-center">
                                 <div>
-                                    <asp:Image ID="imgProfilePic" runat="server" class="rounded-md" />
+                                    <asp:Image ID="imgProfilePic" runat="server" class="rounded-full" />
                                     <%--<asp:ImageButton ID="profilePic" runat="server" CssClass="img-raised profileimg" ImageUrl="" data-toggle="modal" data-target="#modalForm" OnClientClick="return false;" BorderStyle="None" />--%>
                                 </div>
                             </div>
@@ -251,7 +251,7 @@
                         <div class="items-start w-40 min-w-full sm:min-w-0">
                             <div class="flex flex-col justify-center items-center">
                                 <div>
-                                    <asp:Image ID="profilePicture" runat="server" class="profile-pic" />
+                                    <asp:Image ID="profilePicture" runat="server" class="profile-pic rounded-full" />
                                 </div>
                             </div>
                         </div>
@@ -265,7 +265,7 @@
                                 </div>
                             </div>
                             <div class="flex ml-10 justify-between space-x-3">
-                                <div class="text-xl font-bold w-1/5">
+                                <div class="text-xl font-bold w-1/5 text-gray-800">
                                     Name
                                 </div>
                                 <div class="w-4/5">
@@ -279,7 +279,7 @@
                                 </div>
                             </div>
                             <div class="flex ml-10 mt-0 justify-between space-x-3">
-                                <div class="text-xl font-bold w-1/5">
+                                <div class="text-xl font-bold w-1/5 text-gray-800">
                                     Profile Photo
                                 </div>
                                 <div class="w-4/5">
@@ -299,7 +299,7 @@
                              </div>
                          </div>--%>
                             <div class="flex ml-10 mt-3 justify-between space-x-3">
-                                <div class="text-xl font-bold w-1/5">
+                                <div class="text-xl font-bold w-1/5 text-gray-800">
                                     Gender
                                 </div>
                                 <div class="w-4/5">
@@ -311,7 +311,7 @@
                                 </div>
                             </div>
                             <div class="flex ml-10 mt-12 justify-between space-x-3">
-                                <div class="text-xl font-bold w-1/5">
+                                <div class="text-xl font-bold w-1/5 text-gray-800">
                                     D.O.B
                                 </div>
                                 <div class="w-4/5">
@@ -321,7 +321,7 @@
                                 </div>
                             </div>
                             <div class="flex ml-10 mt-12 justify-between space-x-3">
-                                <div class="text-xl font-bold w-1/5">
+                                <div class="text-xl font-bold w-1/5 text-gray-800">
                                     Email
                                 </div>
                                 <div class="w-4/5">
@@ -332,7 +332,7 @@
                                         <asp:RegularExpressionValidator ID="revEmail" runat="server" ErrorMessage="Invalid email. Please enter email as name@email.com" ControlToValidate="txtEmail" ForeColor="Red" ValidationExpression="^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$" ValidationGroup="ProfileValidation"></asp:RegularExpressionValidator></div>
                                 </div>
                             </div>
-                            <div class="flex text-xl ml-10 mt-6 font-bold justify-between">
+                            <div class="flex text-xl ml-10 mt-6 font-bold justify-between text-gray-800">
                                 Profile Description
                             </div>
                             <div class="ml-10 mt-2">
@@ -360,7 +360,7 @@
                             <div class="absolute"><asp:RequiredFieldValidator ID="RequiredFieldValidator3" ValidationGroup="resetpass" runat="server" ControlToValidate="txtOldPass" ErrorMessage="Current password is required." ForeColor="Red"></asp:RequiredFieldValidator></div>
                             <div class="absolute"><asp:Label ID="lblError" runat="server" ForeColor="Red"></asp:Label></div>
                         </div>
-                        
+
                         <span class="text-xl font-bold mb-2">New Password</span><asp:TextBox ID="txtNewPass" runat="server" TextMode="Password" placeholder="New Password" ToolTip="New Password" CssClass="w-full p-2 border-2 rounded-lg cursor-text hover:bg-gray-100 transition ease-in-out duration-300" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}" onfocus="showblock()" onblur="showblock2()" onkeyup="showblock3()"></asp:TextBox>
                         <div class="flex flex-row mb-10">
                         <div class="absolute"><asp:RequiredFieldValidator ID="RequiredFieldValidator2" ValidationGroup="resetpass" runat="server" ControlToValidate="txtNewPass" ErrorMessage="New password is required." ForeColor="Red"></asp:RequiredFieldValidator></div>
@@ -380,7 +380,7 @@
                             <div class="absolute"><asp:CompareValidator ID="CompareValidator1" runat="server" ErrorMessage="Password not match" ControlToCompare="txtNewPass" ControlToValidate="txtConfirmPass" ForeColor="Red"></asp:CompareValidator></div>
                         </div>
                         <asp:CheckBox ID="CheckBox1" runat="server" onclick="myFunction()" Text=" Show Password" CssClass="checkbox" />
-                        
+
                         <div class="flex flex-row justify-end mt-4 space-x-6">
                             <div>
                                 <asp:Button ID="btnCancelPass" runat="server" Text="Cancel" CssClass="mb-4 float-right block text-md cursor-pointer px-6 py-2 rounded-md text-white hover:text-red-500 bg-red-500 font-bold hover:bg-white border-2 border-red-500 transition ease-in-out duration-300" OnClick="btnCancelPass_Click"/>

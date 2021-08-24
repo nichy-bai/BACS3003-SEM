@@ -14,11 +14,11 @@
     </style>
     <%--<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js"></script>--%>
     <title></title>
-    
+
     <style>
         #message {
             display: none;
-            background: #6B7280;
+            background: #1F2937;
             color: #000;
             position: relative;
             padding: 5px;
@@ -138,7 +138,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <div class="h-full max-w-full mx-auto md:py-24 px-6 bg-gray-500">
+        <div class="h-full max-w-full mx-auto md:py-3 px-6 bg-gray-600">
             <div class="max-w-sm mx-auto px-6">
                 <div class="relative flex flex-wrap">
                     <div class="w-full relative">
@@ -146,8 +146,10 @@
                             <div class="absolute w-full h-full bg-gray-900 opacity-50 z-40"></div>
                             <div class="bg-white w-11/12 md:max-w-lg mx-auto rounded-md shadow-md z-50 h-5/6 overflow-y-auto">
                                 <div class="p-10 flex items-center justify-center flex-col">
-                                    <p class="font-bold">Badcaps.net Registration Agreement.</p>
-                                    <p class="text-center text-red-500 underline">READ AND COMPLETELY UNDERSTAND BEFORE AGREEING!!</p>
+                                    <p class="font-bold">Badcaps.net Registration Agreement</p>
+                                    <p class="text-center text-red-500 underline">READ AND COMPLETELY UNDERSTAND BEFORE AGREEING</p>
+                                    <br />
+                                    <br />
                                     <p class="text-justify font-medium text-sm">The Badcaps.net Forum covers issues dealing with electricity and electronics repair.  ELECTRICITY IS DANGEROUS!!!!  Servicing electronics can also possibly expose you to potentially harmful substances, such as lead and mercury!!  In no way is Badcaps.net or the contributors to the Badcaps.net Forum liable for any damage caused to your device as the result of any information presented on this forum!  Furthermore, Badcaps.net accepts NO RESPONSIBILITY for any personal injury or death resulting from any information contained in this forum!!  Use the information presented on this forum AT YOUR OWN RISK!!  If you are not trained in electronics and handling electricity/electronic devices, you might leave servicing to a qualified technician! </p>
                                     <br />
                                     <p class="text-justify font-medium text-sm">You also agree to upload any files & images directly to the forum using the forum attachment feature.  Free image/file hosts (such as photobucket) are not allowed, and most are blocked due to their horrible reliability.  This makes the images & files available for future users to assist in their repairs.  By uploading your images & files, you do not forfeit ownership.  You are however granting Badcaps.net irrevocable permission to host what you upload for an indefinite time period.</p>
@@ -163,63 +165,66 @@
                                 <div class="flex justify-center ">
                                     <asp:Button ID="btnClose" runat="server" Text="Close" CssClass="cursor-pointer my-5 text-lg font-semibold bg-gray-600 text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-gray-500" OnClick="btnClose_Click" />
                                 </div>
-                                
+
                             </div>
                         </asp:Panel>
                         <div class="md:mt-0">
-                            <div class="text-center font-black text-3xl tracking-tight uppercase"><a href="index.aspx">Badcaps.net Forum</a> </div>
-                            <div class="text-center text-3xl font-medium text-gray-100">
-                                Sign Up
+                            <div class="text-center text-2xl font-medium text-gray-300 mt-5 lg:mt-0">
+                                Welcome to
                             </div>
+                            <div class="text-center font-black text-3xl tracking-tight uppercase hover:text-gray-200 text-white mt-5 mb-5"><a href="index.aspx">Badcaps.net Forum</a> </div>
                             <div class="mx-auto max-w-lg ">
                                 <div class="mb-6">
-                                    <span class="px-1 text-lg font-normal text-white">Name</span>
-                                    <asp:TextBox ID="txtName" runat="server" CssClass="txt text-md text-white block px-3 py-2 rounded-lg w-full bg-gray-700 border border-gray-300 placeholder-gray-600 shadow-xl focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"></asp:TextBox>
+                                    <div class="px-1 text-md font-normal text-white mb-2">Name</div>
+                                    <asp:TextBox ID="txtName" runat="server" CssClass="txt text-md text-white block px-3 py-2 rounded-lg w-full bg-gray-600 border border-gray-300 placeholder-gray-600 shadow-xl focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"></asp:TextBox>
                                     <div class="absolute"><asp:RequiredFieldValidator ID="rfvName" runat="server" ValidationGroup="RegisterValidation" ErrorMessage="Name is required." ControlToValidate="txtName" ForeColor="Red"></asp:RequiredFieldValidator></div>
                                     <div class="absolute"><asp:RegularExpressionValidator ID="revNameChar" runat="server" ValidationGroup="RegisterValidation" ErrorMessage="Name cannot contain numbers or special characters." ControlToValidate="txtName" ForeColor="Red" ValidationExpression="([a-z]|[A-Z]|[ ])*"></asp:RegularExpressionValidator></div>
                                     <div class="absolute"><asp:RegularExpressionValidator ID="revName" runat="server" ValidationGroup="RegisterValidation" ErrorMessage="Name maximum length is 26 characters." ControlToValidate="txtName" ForeColor="Red" ValidationExpression="(\s|.){0,26}"></asp:RegularExpressionValidator></div>
                                 </div>
                                 <div class="mb-6">
-                                    <span class="px-1 text-lg font-normal text-white">Username</span>
-                                    <asp:TextBox ID="txtUserID" runat="server" CssClass="txt text-md text-white block px-3 py-2 rounded-lg w-full bg-gray-700 border border-gray-300 placeholder-gray-600 shadow-xl focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"></asp:TextBox>
+                                    <div class="px-1 text-md font-normal text-white mb-2">Username</div>
+                                    <asp:TextBox ID="txtUserID" runat="server" CssClass="txt text-md text-white block px-3 py-2 rounded-lg w-full bg-gray-600 border border-gray-300 placeholder-gray-600 shadow-xl focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"></asp:TextBox>
                                     <div class="absolute"><asp:RequiredFieldValidator ID="rfvUserID" runat="server" ValidationGroup="RegisterValidation" ErrorMessage="Username is required." ControlToValidate="txtUserID" ForeColor="Red"></asp:RequiredFieldValidator></div>
                                     <div class="absolute"><asp:RegularExpressionValidator ID="revUserID" runat="server" ValidationGroup="RegisterValidation" ErrorMessage="Must between 3 to 12 characters." ControlToValidate="txtUserID" ForeColor="Red" ValidationExpression="(\s|.){3,12}"></asp:RegularExpressionValidator></div>
                                     <div class="absolute mt-6"><asp:RegularExpressionValidator ID="revUserChar" runat="server" ValidationGroup="RegisterValidation" ErrorMessage="Cannot contain whitespace." ControlToValidate="txtUserID" ForeColor="Red" ValidationExpression="^[A-Za-z0-9\[\]/!$%^&*()\-_+{};:'£@#.?]*$"></asp:RegularExpressionValidator></div>
                                     <div class="absolute"><asp:Label ID="lblSignUpStatus" runat="server" Text="" ForeColor="Red"></asp:Label></div>
                                 </div>
                                 <div class="mb-6">
-                                    <span class="px-1 text-lg font-normal text-white">Email</span>
-                                    <asp:TextBox ID="txtEmail" runat="server" CssClass="txt text-md text-white block px-3 py-2 rounded-lg w-full bg-gray-700 border border-gray-300 placeholder-gray-600 shadow-xl focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"></asp:TextBox>
+                                    <div class="px-1 text-md font-normal text-white mb-2">Email</div>
+                                    <asp:TextBox ID="txtEmail" runat="server" CssClass="txt text-md text-white block px-3 py-2 rounded-lg w-full bg-gray-600 border border-gray-300 placeholder-gray-600 shadow-xl focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"></asp:TextBox>
                                     <div class="absolute"><asp:RequiredFieldValidator ID="rfvEmail" runat="server" ValidationGroup="RegisterValidation" ErrorMessage="Email is required." ControlToValidate="txtEmail" ForeColor="Red"></asp:RequiredFieldValidator></div>
                                     <div class="absolute"><asp:RegularExpressionValidator ID="revEmail" runat="server" ValidationGroup="RegisterValidation" ErrorMessage="Invalid email format." ControlToValidate="txtEmail" ForeColor="Red" ValidationExpression="^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"></asp:RegularExpressionValidator></div>
                                 </div>
                                 <div class="mb-6">
-                                    <span class="px-1 text-lg font-normal text-white">Password</span>
-                                    <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="txt text-md text-white block px-3 py-2 rounded-lg w-full bg-gray-700 border border-gray-300 placeholder-gray-600 shadow-xl focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}" onfocus="showblock()" onblur="showblock2()" onkeyup="showblock3()"></asp:TextBox>
+                                    <div class="px-1 text-md font-normal text-white mb-2">Password</div>
+                                    <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="txt text-md text-white block px-3 py-2 rounded-lg w-full bg-gray-600 border border-gray-300 placeholder-gray-600 shadow-xl focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}" onfocus="showblock()" onblur="showblock2()" onkeyup="showblock3()"></asp:TextBox>
                                     <div class="absolute"><asp:RequiredFieldValidator ID="rfvPassword" runat="server" ValidationGroup="RegisterValidation" ErrorMessage="Password is required." ControlToValidate="txtPassword" ForeColor="Red"></asp:RequiredFieldValidator></div>
                                     <div class="absolute"><asp:RegularExpressionValidator ID="revPassword" runat="server" ValidationGroup="RegisterValidation" ErrorMessage="Must between 6 to 20 characters." ControlToValidate="txtPassword" ForeColor="Red" ValidationExpression="^.{6,20}$"></asp:RegularExpressionValidator></div>
                                 </div>
 
                                 <div id="message">
-                                <h4>Password must contain the following:</h4>
+                                <h4 class="text-white">Password must contain the following:</h4>
                                 <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
                                 <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
                                 <p id="number" class="invalid">A <b>number</b></p>
-                                <p id="length" class="invalid">Minimum <b>8 characters</b> & Maximum <b>16 characters</b></p>
+                                <p id="length" class="invalid">Min <b>8 </b> & Max <b>16 characters</b></p>
                                 </div>
 
                                 <div class="mb-8">
-                                    <span class="px-1 text-lg font-normal text-white">Confirm Password</span>
-                                    <asp:TextBox ID="txtConfirmPassword" runat="server" TextMode="Password" CssClass="txt text-md text-white block px-3 py-2 rounded-lg w-full bg-gray-700 border border-gray-300 placeholder-gray-600 shadow-xl focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"></asp:TextBox>
+                                    <div class="px-1 text-md font-normal text-white mb-2">Confirm Password</div>
+                                    <asp:TextBox ID="txtConfirmPassword" runat="server" TextMode="Password" CssClass="txt text-md text-white block px-3 py-2 rounded-lg w-full bg-gray-600 border border-gray-300 placeholder-gray-600 shadow-xl focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"></asp:TextBox>
                                     <div class="absolute"><asp:RequiredFieldValidator ID="rfvConfirmPassword" runat="server" ValidationGroup="RegisterValidation" ErrorMessage="Confirm Password is required." ControlToValidate="txtConfirmPassword" ForeColor="Red"></asp:RequiredFieldValidator></div>
                                     <div class="absolute"><asp:CompareValidator ID="cvPassword" runat="server" ValidationGroup="RegisterValidation" ErrorMessage="Password not matched." ControlToCompare="txtPassword" ControlToValidate="txtConfirmPassword" ForeColor="Red"></asp:CompareValidator></div>
                                 </div>
-                                <div><asp:CheckBox ID="CheckBox1" runat="server" onclick="myFunction()" Text=" Show Password" CssClass="checkbox"/></div>
-                                <div><asp:CheckBox ID="CheckBox2" runat="server" CssClass="checkbox" /><span class="cursor-default"> I accept the</span> <asp:LinkButton ID="rules_btn" runat="server" OnClick="rules_btn_Click" CssClass="underline"> Terms of Use and Privacy Notice</asp:LinkButton></div>
+                                <div><asp:CheckBox ID="CheckBox1" runat="server" onclick="myFunction()" Text=" Show Password" CssClass="checkbox text-white"/></div>
+                                <div><asp:CheckBox ID="CheckBox2" runat="server" CssClass="checkbox" /><span class="cursor-default text-white"> I accept the</span> <asp:LinkButton ID="rules_btn" runat="server" OnClick="rules_btn_Click" CssClass="text-blue-300 text-md font-normal hover:underline"> Terms of Use & Privacy Notice</asp:LinkButton></div>
                                 <asp:Button ID="btnSignUp" runat="server" Text="Sign Up" CssClass="cursor-pointer mt-3 text-lg font-semibold bg-green-500 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-green-400" OnClick="btnSignUp_Click" ValidationGroup="RegisterValidation" />
                             </div>
                             <div class="flex justify-center border-t border-gray-400 mt-4 pt-2 text-white">
-                                Already on Badcaps.net Forums?<span><a href="login.aspx" style="text-decoration: none" class="ml-1 text-green-500 font-bold hover:text-green-400 transition ease-in-out duration-300">Login</a></span>
+                                <div>
+                                    Already on Badcaps.net Forums?
+                                </div>
+                                <a href="login.aspx" class="ml-1 text-blue-300 text-md font-normal hover:underline">Login</a>
                             </div>
                         </div>
                     </div>

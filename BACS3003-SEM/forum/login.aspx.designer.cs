@@ -60,6 +60,15 @@ namespace BACS3003_SEM.forum
         protected global::System.Web.UI.WebControls.RegularExpressionValidator revUserID;
 
         /// <summary>
+        /// btnForgotPassword control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnForgotPassword;
+
+        /// <summary>
         /// txtPassword control.
         /// </summary>
         /// <remarks>
@@ -94,15 +103,6 @@ namespace BACS3003_SEM.forum
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvCaptcha;
-
-        /// <summary>
-        /// btnForgotPassword control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnForgotPassword;
 
         /// <summary>
         /// btnLogin control.
