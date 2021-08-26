@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Badcaps.Master" AutoEventWireup="true" CodeBehind="editthread.aspx.cs" Inherits="BACS3003_SEM.forum.editthread" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Badcaps.Master" AutoEventWireup="true" CodeBehind="editthread.aspx.cs" ValidateRequest="false" Inherits="BACS3003_SEM.forum.editthread" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <header

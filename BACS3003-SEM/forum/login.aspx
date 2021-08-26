@@ -47,6 +47,16 @@
                 });
             };
         </script>
+        <script>
+            function myFunction() {
+                var x = document.getElementById("txtPassword");
+                if (x.type === "password") {
+                    x.type = "text";
+                } else {
+                    x.type = "password";
+                }
+            }
+        </script>
 
         <div class="h-screen max-w-full mx-auto md:py-24 px-6 bg-gray-600">
             <div class="max-w-sm mx-auto px-6">
@@ -78,7 +88,7 @@
                                     <div class="absolute">
                                         <asp:RequiredFieldValidator ID="rfvPassword" runat="server" ErrorMessage="Password is required." ControlToValidate="txtPassword" ForeColor="Red" ValidationGroup="LoginValidation"></asp:RequiredFieldValidator></div>
                                 </div>
-
+                                <div><asp:CheckBox ID="CheckBox1" runat="server" onclick="myFunction()" Text=" Show Password" CssClass="checkbox text-white"/></div>
                                 <div id="dvCaptcha" class="reset-single1 flex justify-center mt-5 px-0">
                                 </div>
 
