@@ -22,14 +22,17 @@ namespace BACS3003_SEM.forum
         {
             if (CheckUsername(txtUserID.Text.Trim()))
             {
-                //lblSignUpStatus.Visible = true;
+                lblSignUpStatus.Visible = true;
                 lblSignUpStatus.Text = "Username already exists.";
                 //lblSignUpStatus.Visible = false;
             }
             else
             {
+                lblSignUpStatus.Visible = false;
+
                 if (CheckBox2.Checked)
                 {
+                    lblCheckBoxStatus.Visible = false;
                     string defaultPicture = "~/ProfileImages/Default.png";
                     string encryptedPassword = Encryptdata(txtPassword.Text);
                     String saveUserData = "Insert into [dbo].[User] (userID, name, emailAddress, userPassword, profilePicture, Gender) VALUES (@UserID, @Name, @EmailAddress, @UserPassword, @ProfilePicture, @Gender)";
@@ -47,7 +50,7 @@ namespace BACS3003_SEM.forum
                 }
                 else
                 {
-                    //lblCheckBoxStatus.Visible = true;
+                    lblCheckBoxStatus.Visible = true;
                     lblCheckBoxStatus.Text = "Acceptance of terms is required.";
                     //lblCheckBoxStatus.Visible = false;
                 }
