@@ -218,6 +218,7 @@
                                 </div>
                                 <div><asp:CheckBox ID="CheckBox1" runat="server" onclick="myFunction()" Text=" Show Password" CssClass="checkbox text-white"/></div>
                                 <div><asp:CheckBox ID="CheckBox2" runat="server" CssClass="checkbox" /><span class="cursor-default text-white"> I accept the</span> <asp:LinkButton ID="rules_btn" runat="server" OnClick="rules_btn_Click" CssClass="text-blue-300 text-md font-normal hover:underline"> Terms of Use & Privacy Notice</asp:LinkButton></div>
+                                <div><asp:Label ID="lblCheckBoxStatus" runat="server" Text="" ForeColor="Red"></asp:Label></div>
                                 <asp:Button ID="btnSignUp" runat="server" Text="Sign Up" CssClass="cursor-pointer mt-3 text-lg font-semibold bg-green-500 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-green-400" OnClick="btnSignUp_Click" ValidationGroup="RegisterValidation" />
                             </div>
                             <div class="flex justify-center border-t border-gray-400 mt-4 pt-2 text-white">
