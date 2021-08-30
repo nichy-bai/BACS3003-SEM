@@ -209,11 +209,11 @@ namespace BACS3003_SEM.forum
                 string viewUserID = userID_lbl.Text;
                 if (viewUserID != Session["UserID"].ToString())
                 {
-                    Response.Redirect("../User/ViewProfile.aspx?userid=" + viewUserID);
+                    Response.Redirect("viewmember.aspx?userid=" + viewUserID);
                 }
                 else
                 {
-                    Response.Redirect("../User/UserProfile.aspx");
+                    Response.Redirect("member.aspx");
                 }
             }
             else
