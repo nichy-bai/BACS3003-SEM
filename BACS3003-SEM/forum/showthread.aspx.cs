@@ -502,7 +502,7 @@ namespace BACS3003_SEM.forum
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "redirect",
             "alert('Successfully deleted!'); window.location='" +
-            Request.ApplicationPath + "index.aspx';", true);
+            Request.ApplicationPath + "../forum/index.aspx';", true);
         }
 
         protected void share_url_btn_Command(object sender, CommandEventArgs e)
