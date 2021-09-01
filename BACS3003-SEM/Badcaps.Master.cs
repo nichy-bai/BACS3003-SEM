@@ -78,7 +78,10 @@ namespace BACS3003_SEM
         protected void linkBtnLogout_Click(object sender, EventArgs e)
         {
             Session.Abandon();
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('You have been successfully logged out!');window.location ='../forum/index.aspx';", true);
+            //ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('You have been successfully logged out!');window.location ='../forum/index.aspx';", true);
+
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('You have been successfully logged out!')", true);
+            Response.Redirect("../forum/index.aspx");
         }
     }
 }
