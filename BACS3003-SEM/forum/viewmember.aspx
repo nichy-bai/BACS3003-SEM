@@ -6,7 +6,7 @@
             <div class="items-start w-40 min-w-full sm:min-w-0 mt-0 md:mt-2 mr-5">
                 <div class="flex flex-row justify-center">
                     <div>
-                        <asp:Image ID="imgProfilePic" runat="server" class="profile-pic" />
+                        <asp:Image ID="imgProfilePic" runat="server" class="rounded-full" />
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                     <ItemTemplate>
                         <div
                             class="mt-0 m-5 bg-gray-100 rounded-lg flex flex-col shadow-md h-auto transition ease-in-out duration-1000">
-                            <asp:LinkButton ID="post_btn" runat="server" CssClass="flex flex-col cursor-pointer hover:shadow-md hover:text-gray-800 p-5 px-6 rounded-lg transition ease-in-out duration-500 border-r-4 border-b-4 border-transparent hover:border-gray-600" OnCommand="post_btn_Command" CommandArgument='<%#Eval("postID") %>' OnClientClick="window.document.forms[0].target='_blank';">
+                            <asp:LinkButton ID="post_btn" runat="server" CssClass="flex flex-col cursor-pointer hover:shadow-md hover:text-gray-800 p-5 px-6 rounded-lg transition ease-in-out duration-500 border-r-4 border-b-4 border-transparent hover:border-blue-400" OnCommand="post_btn_Command" CommandArgument='<%#Eval("postID") %>' OnClientClick="window.document.forms[0].target='_blank';">
                                 <div class="flex flex-row justify-start border-b-2 pb-2">
                                     <%--User detail--%>
                                     <div>
@@ -79,7 +79,7 @@
                                     <asp:Label ID="postID_lbl" runat="server" Text='<%#Eval("postID") %>' Visible="false"></asp:Label>
                                     <asp:Label ID="postTitle_lbl" runat="server" Text='<%#Eval("postTitle") %>' CssClass="text-xl font-medium py-2"></asp:Label>
                                 </div>
-                                <div class="flex justify-end animate-pulse text-indigo-600">
+                                <div class="flex justify-end text-blue-400">
                                     View More
                                 </div>
                             </asp:LinkButton>
