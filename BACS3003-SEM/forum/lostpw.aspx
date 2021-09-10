@@ -133,7 +133,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <div class="h-screen max-w-full mx-auto md:py-12 px-6 bg-gray-600">
+        <div class="h-full max-w-full mx-auto md:py-12 px-6 bg-gray-600">
             <div class="max-w-sm mx-auto px-6">
                 <div class="relative flex flex-wrap">
                     <div class="w-full relative">
